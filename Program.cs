@@ -1,10 +1,10 @@
 ﻿namespace LibrarySystemDB
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            ApplicationDBContext applicationDbContext = new ApplicationDBContext();
         }
     }
 }
