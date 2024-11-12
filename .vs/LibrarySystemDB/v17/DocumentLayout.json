@@ -3,6 +3,38 @@
   "WorkspaceRootPath": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|c:\\users\\codeline user\\desktop\\projects\\librarysystemdb\\models\\borrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|solutionrelative:models\\borrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|c:\\users\\codeline user\\desktop\\projects\\librarysystemdb\\models\\reader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|solutionrelative:models\\reader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Migrations\\20241112101001_CreatingModels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20241112101001_CreatingModels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|c:\\users\\codeline user\\desktop\\projects\\librarysystemdb\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|solutionrelative:applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|c:\\users\\codeline user\\desktop\\projects\\librarysystemdb\\models\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|solutionrelative:models\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|c:\\users\\codeline user\\desktop\\projects\\librarysystemdb\\models\\librarian.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|solutionrelative:models\\librarian.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|c:\\users\\codeline user\\desktop\\projects\\librarysystemdb\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|solutionrelative:models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|c:\\users\\codeline user\\desktop\\projects\\librarysystemdb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|c:\\users\\codeline user\\desktop\\projects\\librarysystemdb\\repositories\\librarianrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|solutionrelative:repositories\\librarianrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -21,30 +53,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|c:\\users\\codeline user\\desktop\\projects\\librarysystemdb\\repositories\\categoriesrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|solutionrelative:repositories\\categoriesrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|c:\\users\\codeline user\\desktop\\projects\\librarysystemdb\\models\\librarians.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|solutionrelative:models\\librarians.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|c:\\users\\codeline user\\desktop\\projects\\librarysystemdb\\models\\readers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|solutionrelative:models\\readers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|c:\\users\\codeline user\\desktop\\projects\\librarysystemdb\\models\\borrows.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|solutionrelative:models\\borrows.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|c:\\users\\codeline user\\desktop\\projects\\librarysystemdb\\models\\books.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|solutionrelative:models\\books.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|c:\\users\\codeline user\\desktop\\projects\\librarysystemdb\\models\\categories.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|solutionrelative:models\\categories.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|c:\\users\\codeline user\\desktop\\projects\\librarysystemdb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A5140C62-9046-43C8-BEA3-B930BCFB08F5}|LibrarySystemDB.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -54,15 +62,122 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Borrow.cs",
+              "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Borrow.cs",
+              "RelativeDocumentMoniker": "Models\\Borrow.cs",
+              "ToolTip": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Borrow.cs",
+              "RelativeToolTip": "Models\\Borrow.cs",
+              "ViewState": "AQIAAB0AAAAAAAAAAAAUwDQAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-12T08:58:14.001Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Book.cs",
+              "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Book.cs",
+              "RelativeDocumentMoniker": "Models\\Book.cs",
+              "ToolTip": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Book.cs",
+              "RelativeToolTip": "Models\\Book.cs",
+              "ViewState": "AQIAABQAAAAAAAAAAAA9wCoAAAA4AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-12T08:57:58.107Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Reader.cs",
+              "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Reader.cs",
+              "RelativeDocumentMoniker": "Models\\Reader.cs",
+              "ToolTip": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Reader.cs",
+              "RelativeToolTip": "Models\\Reader.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-12T08:58:27.782Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "20241112101001_CreatingModels.cs",
+              "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Migrations\\20241112101001_CreatingModels.cs",
+              "RelativeDocumentMoniker": "Migrations\\20241112101001_CreatingModels.cs",
+              "ToolTip": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Migrations\\20241112101001_CreatingModels.cs",
+              "RelativeToolTip": "Migrations\\20241112101001_CreatingModels.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-12T10:10:01.854Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
+              "Title": "Librarian.cs",
+              "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Librarian.cs",
+              "RelativeDocumentMoniker": "Models\\Librarian.cs",
+              "ToolTip": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Librarian.cs",
+              "RelativeToolTip": "Models\\Librarian.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAYwAwAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-12T08:58:54.504Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ApplicationDBContext.cs",
+              "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\ApplicationDBContext.cs",
+              "RelativeDocumentMoniker": "ApplicationDBContext.cs",
+              "ToolTip": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\ApplicationDBContext.cs",
+              "RelativeToolTip": "ApplicationDBContext.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAAyAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-12T09:12:22.136Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Category.cs",
+              "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Category.cs",
+              "RelativeDocumentMoniker": "Models\\Category.cs",
+              "ToolTip": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Category.cs",
+              "RelativeToolTip": "Models\\Category.cs",
+              "ViewState": "AQIAABEAAAAAAAAAAAAQwCUAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-12T08:54:30.2Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-12T05:53:53.745Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "LibrarianRepo.cs",
               "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Repositories\\LibrarianRepo.cs",
               "RelativeDocumentMoniker": "Repositories\\LibrarianRepo.cs",
@@ -75,20 +190,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ReadersRepo.cs",
-              "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Repositories\\ReadersRepo.cs",
-              "RelativeDocumentMoniker": "Repositories\\ReadersRepo.cs",
-              "ToolTip": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Repositories\\ReadersRepo.cs",
-              "RelativeToolTip": "Repositories\\ReadersRepo.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-12T09:05:33.251Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 10,
               "Title": "BorrowsRepo.cs",
               "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Repositories\\BorrowsRepo.cs",
               "RelativeDocumentMoniker": "Repositories\\BorrowsRepo.cs",
@@ -96,12 +198,23 @@
               "RelativeToolTip": "Repositories\\BorrowsRepo.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-12T09:03:20.012Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-12T09:03:20.012Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 9,
+              "Title": "ReadersRepo.cs",
+              "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Repositories\\ReadersRepo.cs",
+              "RelativeDocumentMoniker": "Repositories\\ReadersRepo.cs",
+              "ToolTip": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Repositories\\ReadersRepo.cs",
+              "RelativeToolTip": "Repositories\\ReadersRepo.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-12T09:05:33.251Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "BooksRepo.cs",
               "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Repositories\\BooksRepo.cs",
               "RelativeDocumentMoniker": "Repositories\\BooksRepo.cs",
@@ -109,12 +222,11 @@
               "RelativeToolTip": "Repositories\\BooksRepo.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-12T09:03:03.146Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-12T09:03:03.146Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 12,
               "Title": "CategoriesRepo.cs",
               "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Repositories\\CategoriesRepo.cs",
               "RelativeDocumentMoniker": "Repositories\\CategoriesRepo.cs",
@@ -122,86 +234,7 @@
               "RelativeToolTip": "Repositories\\CategoriesRepo.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-12T09:00:31.412Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Librarians.cs",
-              "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Librarians.cs",
-              "RelativeDocumentMoniker": "Models\\Librarians.cs",
-              "ToolTip": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Librarians.cs",
-              "RelativeToolTip": "Models\\Librarians.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-12T08:58:54.504Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Readers.cs",
-              "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Readers.cs",
-              "RelativeDocumentMoniker": "Models\\Readers.cs",
-              "ToolTip": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Readers.cs",
-              "RelativeToolTip": "Models\\Readers.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-12T08:58:27.782Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Borrows.cs",
-              "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Borrows.cs",
-              "RelativeDocumentMoniker": "Models\\Borrows.cs",
-              "ToolTip": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Borrows.cs",
-              "RelativeToolTip": "Models\\Borrows.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-12T08:58:14.001Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Books.cs",
-              "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Books.cs",
-              "RelativeDocumentMoniker": "Models\\Books.cs",
-              "ToolTip": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Books.cs",
-              "RelativeToolTip": "Models\\Books.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-12T08:57:58.107Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Categories.cs",
-              "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Categories.cs",
-              "RelativeDocumentMoniker": "Models\\Categories.cs",
-              "ToolTip": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Models\\Categories.cs",
-              "RelativeToolTip": "Models\\Categories.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-12T08:54:30.2Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\Codeline user\\Desktop\\Projects\\LibrarySystemDB\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-12T05:53:53.745Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-12T09:00:31.412Z"
             }
           ]
         }
