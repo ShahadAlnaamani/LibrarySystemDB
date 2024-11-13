@@ -30,6 +30,11 @@ namespace LibrarySystemDB.Repositories
             return _context.Readers.Find(name);
         }
 
+        public Reader GetReaderByUserName(string user)
+        {
+            return _context.Readers.Find(user);
+        }
+
         public void Update(string name)
         {
             var reader = GetReaderByName(name);
@@ -59,6 +64,30 @@ namespace LibrarySystemDB.Repositories
         public int CountByGender(GenderType gender)
         {
            return _context.Readers.Where(g=> g.RGender == gender).Count();
+        }
+
+        public int UserAuthentication(string UserName, string Password)
+        {
+            var reader = GetReaderByUserName(UserName);
+            if (reader != null)
+            {
+                if (reader.Password == Password)
+                {
+                    
+                    return 1; //successful login
+                }
+
+                else 
+                {
+                    return 2; //account found but wrong pass
+                }
+            }
+
+            else 
+            {
+                //call sign up function 
+                return 3; //wrong username 
+            }
         }
     }
 }

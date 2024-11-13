@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -48,10 +49,11 @@ namespace LibrarySystemDB.Models
         [EnumDataType(typeof(RatingTypes))]
         public RatingTypes Rating { get; set; }
 
-        public DateOnly ActualReturn { get; set; }
+        public DateOnly? ActualReturn { get; set; }
 
         [Required]
         [EnumDataType(typeof(IsReturnedType))]
+        [DefaultValue(IsReturnedType.NotReturned)]
         public IsReturnedType IsReturned  { get; set; }
 
     }

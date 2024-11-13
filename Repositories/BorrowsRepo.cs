@@ -57,5 +57,20 @@ namespace LibrarySystemDB.Repositories
                    IsReturnedType notreturned = IsReturnedType.NotReturned;
                    return _context.Borrows.Where(g => g.IsReturned == notreturned).Count();
             }
+
+        public List<Borrow> OverdueFinder(Reader reader)
+        {
+            List<Borrow> overdue = new List<Borrow>();
+           IsReturnedType notreturned = IsReturnedType.NotReturned;
+            foreach (Borrow b in _context.Borrows.Where(r => r.BRID == reader.RID))
+            { 
+                if ((b.IsReturned == notreturned) && (b.PredictedReturn < (DateOnly.FromDateTime(DateTime.Now))))
+                { 
+                    overdue.Add(b);
+                }
+            }
+
+            return overdue;
+        }
     }
 }
