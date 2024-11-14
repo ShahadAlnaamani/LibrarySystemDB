@@ -21,14 +21,14 @@ namespace LibrarySystemDB.Repositories
                 return _context.Borrows.ToList();
             }
 
-            public Borrow GetBorrowByID(int ID)
+            public List<Borrow> GetBorrowByReaderID(int ID)
             {
-                return _context.Borrows.Find(ID);
+                return _context.Borrows.Where(r => r.BRID == ID).ToList();
             }
 
-            public void Update(int ID)
+        public void Update(int ID)
             {
-                var borrow = GetBorrowByID(ID);
+                Borrow borrow = GetBorrowByID(ID);
                 if (borrow != null)
                 {
                     _context.Borrows.Update(borrow);
@@ -42,9 +42,19 @@ namespace LibrarySystemDB.Repositories
                 _context.SaveChanges();
             }
 
-            public void Delete(int ID)
+            public void Return(int ID)
             {
                 var borrow = GetBorrowByID(ID);
+                if (borrow != null)
+                {
+                    _context.Borrows.Update(borrow);
+                    _context.SaveChanges();
+                }
+            }
+
+        public void Delete(int ID)
+            {
+                var borrow = GetBorrowByReaderID(ID);
                 if (borrow != null)
                 {
                     _context.Borrows.Remove(borrow);
@@ -57,6 +67,12 @@ namespace LibrarySystemDB.Repositories
                    IsReturnedType notreturned = IsReturnedType.NotReturned;
                    return _context.Borrows.Where(g => g.IsReturned == notreturned).Count();
             }
+
+        public int GetTotalBorrowedBooksByReader(Reader reader)
+        {
+            IsReturnedType returned = IsReturnedType.Returned;
+            return _context.Borrows.Where(g => g.BRID == reader.RID && g.IsReturned == returned ).Count();
+        }
 
         public List<Borrow> OverdueFinder(Reader reader)
         {

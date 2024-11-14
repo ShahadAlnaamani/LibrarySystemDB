@@ -21,6 +21,11 @@ namespace LibrarySystemDB.Repositories
             return _context.Books.ToList();
         }
 
+        public List<Book> GetAllByAuthor(string Name)
+        {
+            return _context.Books.Where(i=>i.AuthFName == Name || i.AuthLName == Name).ToList();
+        }
+
         public Book GetBookByTitle(string BookTitle)
         {
             return _context.Books.FirstOrDefault(b => b.Title == BookTitle);

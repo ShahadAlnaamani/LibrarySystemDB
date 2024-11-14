@@ -30,6 +30,12 @@ namespace LibrarySystemDB.Repositories
             return _context.Readers.Find(name);
         }
 
+        public int GetReaderIDByName(string name)
+        {
+           var reader = _context.Readers.Find(name);
+            return reader.RID;
+        }
+
         public Reader GetReaderByUserName(string user)
         {
             return _context.Readers.Find(user);

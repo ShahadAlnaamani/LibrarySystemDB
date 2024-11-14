@@ -70,6 +70,7 @@ namespace LibrarySystemDB
 
                         //ADD USER AUTH IN READERS REPO AND THEN ACCESS FROM HERE 
                         int UsrAuth = reader.UserAuthentication(Usr, Pswd);
+                        var CurrentReader = reader.GetReaderByName(Usr);
 
                         if (UsrAuth == 1)
                         {
@@ -201,7 +202,7 @@ namespace LibrarySystemDB
                     {
                         case 1:
                             Console.Clear();
-                            ReturnBook();
+                            ReturnBook(borrow, currentReader);
                             break;
 
                         case 2:
@@ -256,22 +257,23 @@ namespace LibrarySystemDB
 
                         case 2:
                             Console.Clear();
-                            UserSearchForBook();
+                            UserSearchForBook(applicationDbContext);
                             break;
 
                         case 3:
                             Console.Clear();
-                            ViewUsrProfile();
+                            ViewUsrProfile(currentReader, art, applicationDbContext);
                             break;
 
                         case 4:
                             Console.Clear();
+                            ViewBook(applicationDbContext);
                             BorrowBook();
                             break;
 
                         case 5:
                             Console.Clear();
-                            ReturnBook();
+                            ReturnBook(borrow, currentReader);
                             break;
 
                         //case 6:
@@ -397,13 +399,36 @@ namespace LibrarySystemDB
             Console.ReadKey();
         }
 
-        //BORROW BOOK-
-        static void BorrowBook()
+        //ALLOWS USER TO SEARCH FOR BOOK WITH ID
+        static bool UserSearchByID(ApplicationDBContext applicationDbContext, int ID)
         {
-            bool CanBorrow = true;
-            if (Books.Count != 0)
+            BooksRepo book = new BooksRepo(applicationDbContext);
+            var allbooks = book.GetAll();
+            bool found = false;
+
+            for (int i = 0; i < allbooks.Count; i++)
             {
-                ViewAllBooks();
+
+                if (allbooks[i].BookID == ID)
+                {
+                    found = true;
+                }
+
+            }
+
+            if (!found)
+            {
+                Console.WriteLine("<!>This book does not exist<!>");
+            }
+
+            return found;
+
+        }
+
+            //BORROW BOOK-
+            static void BorrowBook(ApplicationDBContext applicationDbContext, Artworks art, Reader reader )
+            {
+                bool CanBorrow = true;
 
                 Console.Write("\n\n\n\n\t\t\t\t\t\t   BORROWING A BOOK:\n\n");
                 Console.Write("Enter ID: ");
@@ -415,7 +440,11 @@ namespace LibrarySystemDB
                 }
                 catch (Exception ex) { Console.WriteLine(ex.Message + "\n"); }
 
-                for (int i = 0; i < Borrowing.Count; i++)
+                bool Exists = UserSearchByID(applicationDbContext, BorrowID);
+
+            if (Exists)
+            {
+                for ()
                 {
                     if (Borrowing[i].UserID == CurrentUser && Borrowing[i].BookID == BorrowID && Borrowing[i].IsReturned == false) //checks if user has this book borrowed currently 
                     {
@@ -486,43 +515,43 @@ namespace LibrarySystemDB
                                 switch (CurrentCategory)
                                 {
                                     case "Children":
-                                        PrintBear();
+                                        art.PrintBear();
                                         break;
 
                                     case "Cooking":
-                                        PrintPie();
+                                        art.PrintPie();
                                         break;
 
                                     case "History":
-                                        PrintScroll();
+                                        art.PrintScroll();
                                         break;
 
                                     case "IT":
-                                        PrintComputer();
+                                        art.PrintComputer();
                                         break;
 
                                     case "Non-Fiction":
-                                        PrintPerson();
+                                        art.PrintPerson();
                                         break;
 
                                     case "Science":
-                                        PrintBooks();
+                                        art.PrintBooks();
                                         break;
 
                                     case "Self Help":
-                                        PrintMoon();
+                                        art.PrintMoon();
                                         break;
 
                                     case "Software":
-                                        PrintWindowsLogo();
+                                        art.PrintWindowsLogo();
                                         break;
 
                                     case "Stories":
-                                        PrintSherlock();
+                                        art.PrintSherlock();
                                         break;
 
                                     case "Young Adult":
-                                        PrintPacMan();
+                                        art.PrintPacMan();
                                         break;
 
                                 }
@@ -543,7 +572,7 @@ namespace LibrarySystemDB
 
                                 if (Response != "no") //Will repeat borrowing process
                                 {
-                                    BorrowBook();
+                                    BorrowBook(applicationDbContext, art);
                                 }
 
                             }
@@ -556,7 +585,7 @@ namespace LibrarySystemDB
 
                             if (ViewOtherBooks != "no")
                             {
-                                ViewAllBooks();
+                                ViewBook(applicationDbContext);
                             }
                         }
                     }
@@ -572,7 +601,9 @@ namespace LibrarySystemDB
                             Console.WriteLine("Exiting...");
                         }
                         else
-                        { ViewAllBooks(); }
+                        {
+                            ViewBook(applicationDbContext);
+                        }
                     }
                 }
             }
@@ -581,40 +612,39 @@ namespace LibrarySystemDB
 
 
         //RETURN BOOK-
-        static void ReturnBook()
+        static void ReturnBook(BorrowsRepo borrow, Reader CurrentReader)
         {
-            List<int> BorrowedBookIDs = new List<int>();
-            double CountDown;
-            bool Found = false;
-            int ReturnBook = 0;
+            //List<int> BorrowedBookIDs = new List<int>();
+            //double CountDown;
+            //bool Found = false;
+            int returnBook = 0;
             Console.Clear();
-            Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
+
+            var borrowedBooks = borrow.GetBorrowByID(CurrentReader.RID);
+            PrintTitle();
             Console.Write("\n\n\n\n\t\t\t\t\t\t   RETURN BOOK:\n\n");
 
             Console.WriteLine("BORROWED BOOKS: ");
-            for (int i = 0; i < Borrowing.Count; i++)
-            {
-                if (Borrowing[i].UserID == CurrentUser && Borrowing[i].IsReturned != true)
-                {
-                    CountDown = (Borrowing[i].ReturnBy - DateTime.Now).TotalDays;
-                    CountDown = Math.Round(CountDown, 0);
-                    Console.WriteLine($"Book ID: {Borrowing[i].BookID} \nReturn Date: {Borrowing[i].ReturnBy} \nDays remaining: {CountDown}\n");
-                    BorrowedBookIDs.Add(Borrowing[i].BookID);
-
-                }
-            }
 
 
             Console.Write("Enter Book ID: ");
 
             try
             {
-                ReturnBook = int.Parse(Console.ReadLine());
+                returnBook = int.Parse(Console.ReadLine());
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); }
 
 
-            if (BorrowedBookIDs.Contains(ReturnBook)) //Checking if the user has borrowed the book they are trying to return
+            foreach (var i in borrowedBooks)
+            {
+                if (i.BBID == returnBook)
+                {
+                    borrow.ReturnBook(i);
+                }
+            }
+
+            if (ReturnBook) //Checking if the user has borrowed the book they are trying to return
             {
                 for (int i = 0; i < Books.Count; i++)
                 {
@@ -687,107 +717,45 @@ namespace LibrarySystemDB
         }
 
 
-        //PRINTS USER DETAILS-
-        static void ViewUsrProfile()
+        //PRINTS USER DETAILS
+        static void ViewUsrProfile(Reader CurrentReader, Artworks art, ApplicationDBContext applicationDbContext)
         {
-            List<int> SearchIDs = new List<int>();
-            List<int> BookID = new List<int>();
-            List<int> BorrowedBookIDs = new List<int>();
-            List<int> ReaderIDs = new List<int>();
+            BorrowsRepo borrow = new BorrowsRepo(applicationDbContext);
 
             double CountDown;
-            DateTime Now = DateTime.Now;
 
-            for (int i = 0; i < Users.Count; i++)
-            {
-                SearchIDs.Add(Users[i].UserID);
-            }
-
-            for (int i = 0; i < Books.Count; i++)
-            {
-                BookID.Add(Books[i].BookID);
-            }
-
-            int CurrentIndex = SearchIDs.IndexOf(CurrentUser);
-
-            //Getting user reading ranking across all readers 
-
-            int UserCounter = 0;
-            int Counter = 0;
-            int CurrentCount = 0;
-            int HighScore = 0;
-            int UserRead = 0;
-
-            for (int i = 0; i < Borrowing.Count; i++)
-            {
-                if (Borrowing[i].IsReturned) //We only want values of books completed by reader (so borrowed and returned as well)
-                {
-                    ReaderIDs.Add(Borrowing[i].UserID);
-                }
-            }
-            int UserRank = ReaderIDs.Count;
-
-            for (int i = 0; i < ReaderIDs.Count; i++)
-            {
-                Counter = 0;
-                for (int j = 0; j < ReaderIDs.Count; j++)
-                {
-                    if (ReaderIDs[i] == ReaderIDs[j])
-                    {
-                        Counter++;
-                    }
-                }
-
-                if (ReaderIDs[i] != CurrentUser) //Ensures that user is not being compared to themself
-                {
-                    if (CurrentCount < UserCounter) //Moves users rank down one as if the counter is higher than they have a higher rank 
-                    {
-                        UserRank--;
-                    }
-                }
-            }
-
-
-            for (int i = 0; i < ReaderIDs.Count; i++)
-            {
-                if (ReaderIDs[i] == CurrentUser)
-                {
-                    UserRead++;
-                }
-            }
-
+            int UserRead = borrow.GetTotalBorrowedBooksByReader(CurrentReader);
+            var borrowedBooks = borrow.GetBorrowByReaderID(CurrentReader.RID);
 
             Console.Clear();
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
             Console.WriteLine("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
-            PrintOwl();
-            Console.WriteLine($"\n\t\t\t\t\t\t {Users[CurrentIndex].UserUserName}'s Home Page :) \n ");
-            Console.WriteLine($"MY DETAILS: \nUser ID: {Users[CurrentIndex].UserID} \nUser Name: {Users[CurrentIndex].UserUserName} \nEmail: {Users[CurrentIndex].UserEmail} \nUser Ranking: #{UserRank}, Books Read: {UserRead}\n");
+            art.PrintOwl();
+            Console.WriteLine($"\n\t\t\t\t\t\t {CurrentReader.RFName}'s Home Page :) \n ");
+            Console.WriteLine($"MY DETAILS: \nUser ID: {CurrentReader.RID} \nUser Name: {CurrentReader.RUserName} \nEmail: {CurrentReader.REmail} \nBooks Read: {UserRead}\n");
             Console.WriteLine("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
             Console.WriteLine($"CURRENTLY BORROWED:");
-            for (int i = 0; i < Borrowing.Count; i++)
+            foreach (var i in borrowedBooks)
             {
-                if (Borrowing[i].UserID == CurrentUser && Borrowing[i].IsReturned != true)
+                if (i.IsReturned == IsReturnedType.NotReturned)
                 {
-                    CountDown = (Borrowing[i].ReturnBy - DateTime.Now).TotalDays;
-                    CountDown = Math.Round(CountDown, 0);
-                    Console.WriteLine($"Book ID: {Borrowing[i].BookID} \nReturn Date: {Borrowing[i].ReturnBy} \nDays remaining: {CountDown}\n");
-                    BorrowedBookIDs.Add(Borrowing[i].BookID);
-
+                    Console.WriteLine($"Book ID: {i.BBID} \nReturn Date: {i.PredictedReturn}");
                 }
             }
+
+            //count currently borrowed using get borrowed by id
+
             Console.WriteLine("\n");
             Console.WriteLine("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
             Console.WriteLine("RETURNED BOOKS:");
-            for (int i = 0; i < Borrowing.Count; i++)
+            foreach (var i in borrowedBooks)
             {
-                if (Borrowing[i].UserID == CurrentUser && Borrowing[i].IsReturned != false)
+                if (i.IsReturned == IsReturnedType.Returned)
                 {
-                    Console.WriteLine($"Book ID: {Borrowing[i].BookID} \nReturn Date: {Borrowing[i].ReturnBy} \nActual Return: {Borrowing[i].ActualReturn}\n");
-                    BorrowedBookIDs.Add(Borrowing[i].BookID);
-
+                    Console.WriteLine($"Book ID: {i.BBID} \nReturned Date: {i.ActualReturn}");
                 }
             }
+
             Console.WriteLine("\n");
             Console.WriteLine("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
             Console.WriteLine("\n\t\t\t\t\t Press enter to continue...");
@@ -796,8 +764,8 @@ namespace LibrarySystemDB
         }
 
 
-        //PRINT RETRUN RECIPT-
-        static void ReturnRecipt(int i)
+        //PRINT RETRUN RECIPT
+        static void ReturnRecipt(Artworks art, int i, Book book)
         {
             DateTime Now = DateTime.Now;
 
@@ -806,10 +774,10 @@ namespace LibrarySystemDB
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  \n\n");
             Console.WriteLine("\t\t\t\t\t Returned: " + Now);
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  \n\n");
-            PrintDucks();
-            Console.WriteLine($"\t\t\t\t\tBOOK: \nID - {Books[i].BookID} \nNAME - {Books[i].BookName} \nAUTHOR - {Books[i].BookAuthor}");
+            art.PrintDucks();
+            Console.WriteLine($"\t\t\t\t\tBOOK: \nID - {book.BookID} \nNAME - {book.Title} \nAUTHOR - {book.AuthFName} {book.AuthLName}");
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  \n\n");
-            Console.WriteLine($"\t\t\t\t\tThank you for returning {Books[i].BookName} :)\n\n");
+            Console.WriteLine($"\t\t\t\t\tThank you for returning {book.Title} :)\n\n");
             Console.WriteLine("\t\t\t\t\t\tCome again soon!");
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  \n\n");
 
@@ -818,92 +786,19 @@ namespace LibrarySystemDB
         }
 
 
-        //SAVES USER INFO TO FILE-
-        static void SaveUsers()
+        //BOOK RECCOMENDATION GENERATOR
+        static void Reccomend(string Author, BooksRepo book)
         {
-            try
-            {//Info saved -> ID|UserName|Password|Email
-                using (StreamWriter writer = new StreamWriter(UserPath))
-                {
-                    foreach (var user in Users)
-                    {
-                        writer.WriteLine($"{user.UserID}| {user.UserUserName.Trim()} | {user.UserEmail.Trim()} | {user.UserPswd.Trim()}");
-                    }
-                }
-                Console.WriteLine("User details saved to file successfully! :)");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error saving to file: {ex.Message}");
-            }
-        }
 
-
-        //READS USER INFO FROM FILE-
-        static void LoadUsers()
-        {
-            try
-            {
-                if (File.Exists(UserPath))
-                {
-                    using (StreamReader reader = new StreamReader(UserPath))
-                    {
-                        string line;
-                        while ((line = reader.ReadLine()) != null)
-                        {
-                            var parts = line.Split('|');
-                            if (parts.Length == 4)
-                            {
-                                Users.Add((int.Parse(parts[0]), parts[1], parts[2], parts[3]));
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading users from file: {ex.Message}");
-            }
-        }
-
-
-        //RECORDS INVOICES ON FILE-
-        static void SaveInvoice()
-        {
-            try
-            {
-                using (StreamWriter writer = new StreamWriter(InvoicePath, true))
-                {
-                    foreach (var invoice in Invoices)
-                    {
-                        writer.WriteLine($"{invoice.CustomerID}|{invoice.BorrowedOn}|{invoice.BookID}|{invoice.BookName}|{invoice.BookAuthor}|{invoice.Borrow}");
-                    }
-                }
-                Console.WriteLine("Invoices saved to file successfully! :)");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error saving to file: {ex.Message}");
-            }
-        }
-
-
-        //BOOK RECCOMENDATION GENERATOR-
-        static void Reccomend(string Author)
-        {
             //Book author find other books with book author and suggest 
             Console.Clear();
+            var recommendations = book.GetAllByAuthor(Author);
+
             Console.WriteLine("You might also like: ");
-            for (int i = 0; i < Books.Count; i++)
+            foreach (var r in recommendations) 
             {
-                if (Books[i].BookAuthor == Author)
-                {
-                    Console.WriteLine($"Book name: {Books[i].BookName}");
-                }
+                Console.WriteLine($"|Book ID: {r.BookID} | Book Title: {r.Title} | Book Author {r.AuthFName} {r.AuthLName}|");
             }
-
-            //Most popular book -> suggest 
-
         }
     }
 }
