@@ -72,9 +72,9 @@ namespace LibrarySystemDB.Repositories
             return _context.Books.Sum(e => e.Price * e.BorrowPeriod);
         }
 
-        public int GetTotalBooksPerCategoryName(string catName)
+        public int GetTotalBooksPerCategoryName(CategoryType catName)
         { 
-            return _context.Categories.Where(c=> c.CatName ==).Sum();
+            return _context.Categories.Where(c=> c.CatName == catName).Count();
         }
     }
 }

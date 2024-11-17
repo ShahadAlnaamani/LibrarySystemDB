@@ -236,7 +236,7 @@ namespace LibrarySystemDB.AsciiArt
 
                    
                                                                       .-.
-                                                       .-""`""-.    |(@ @)
+                                                        .-""`""-.     |(@ @)
                                                     _/`oOoOoOoOo`\_ \ \-/  Bye!
                                                    '.-=-=-=-=-=-=-.' \/ \
                                                      `-=.=-.-=.=-'    \ /\

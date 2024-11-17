@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,9 +42,11 @@ namespace LibrarySystemDB.Repositories
             }
         }
 
-        public void Add(Librarian librarians)
+        public void Add(string FName, string LName, string email, string UName, string pass)
         {
-            _context.Librarians.Add(librarians);
+            var librarian = new Librarian { LFName = FName, LLName = LName, LEmail = email, LUserName = UName, LPassword = pass };
+
+            _context.Librarians.Add(librarian);
             _context.SaveChanges();
         }
 
@@ -53,6 +57,30 @@ namespace LibrarySystemDB.Repositories
             {
                 _context.Librarians.Remove(librarian);
                 _context.SaveChanges();
+            }
+        }
+
+        public int AdminAuthentication(string AdminUserName, string AdminPass)
+        {
+            var librarian = GetLibrarianByName(AdminUserName);
+            if (librarian != null)
+            {
+                if (librarian.LPassword == AdminPass)
+                {
+
+                    return 1; //successful login
+                }
+
+                else
+                {
+                    return 2; //account found but wrong pass
+                }
+            }
+
+            else
+            {
+                //call sign up function 
+                return 3; //wrong username 
             }
         }
     }

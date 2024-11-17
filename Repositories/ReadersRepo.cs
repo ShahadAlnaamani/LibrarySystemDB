@@ -51,8 +51,10 @@ namespace LibrarySystemDB.Repositories
             }
         }
 
-        public void Add(Reader reader)
+        public void Add(string FName, string LName, string email, GenderType gender, string phone, string UName, string pass)
         {
+            var reader = new Reader {RFName = FName, RLName = LName, REmail = email, RGender = gender, RPhoneNo = phone, RUserName = UName, Password = pass};
+
             _context.Readers.Add(reader);
             _context.SaveChanges();
         }

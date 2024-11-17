@@ -33,15 +33,15 @@ namespace LibrarySystemDB.Repositories
             return (Borrow)_context.Borrows.Where(r => r.BRID == RID && r.BBID == BID && r.IsReturned == IsReturnedType.NotReturned);
         }
 
-        public void Update(int ID)
-            {
-                var borrow = GetBorrowByReaderID(ID);
-                if (borrow != null)
-                {
-                    _context.Borrows.Update(borrow);
-                    _context.SaveChanges();
-                }
-            }
+        //public void Update(int ID)
+        //    {
+        //        var borrow = GetBorrowByReaderID(ID);
+        //        if (borrow != null)
+        //        {
+        //            _context.Borrows.Update(borrow);
+        //            _context.SaveChanges();
+        //        }
+        //    }
 
             public bool Add(int BID, int ReaderID, ApplicationDBContext applicationDBContext)
             {
@@ -93,15 +93,15 @@ namespace LibrarySystemDB.Repositories
             { return false;  }
             }
 
-        public void Delete(int ID)
-            {
-                var borrow = GetBorrowByReaderID(ID);
-                if (borrow != null)
-                {
-                    _context.Borrows.Remove(borrow);
-                    _context.SaveChanges();
-                }
-            }
+        //public void Delete(int ID)
+        //    {
+        //        var borrow = GetBorrowByReaderID(ID);
+        //        if (borrow != null)
+        //        {
+        //            _context.Borrows.Remove(borrow);
+        //            _context.SaveChanges();
+        //        }
+        //    }
 
             public int GetTotalBorrowedBooks()
             {
