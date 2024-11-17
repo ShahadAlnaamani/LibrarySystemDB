@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,9 +28,14 @@ namespace LibrarySystemDB.Repositories
                 return _context.Borrows.Where(r => r.BRID == ID).ToList();
             }
 
+        public Borrow GetBorrow(int RID, int BID)
+        {
+            return (Borrow)_context.Borrows.Where(r => r.BRID == RID && r.BBID == BID && r.IsReturned == IsReturnedType.NotReturned);
+        }
+
         public void Update(int ID)
             {
-                Borrow borrow = GetBorrowByID(ID);
+                var borrow = GetBorrowByReaderID(ID);
                 if (borrow != null)
                 {
                     _context.Borrows.Update(borrow);
@@ -62,14 +68,29 @@ namespace LibrarySystemDB.Repositories
             else { return false; } // ie failed
             }
 
-            public void Return(int ID)
+            public bool Return(int ID, int BID, ApplicationDBContext applicationDbContext, RatingTypes Rating)
             {
-                var borrow = GetBorrowByID(ID);
-                if (borrow != null)
-                {
-                    _context.Borrows.Update(borrow);
-                    _context.SaveChanges();
-                }
+                var borrow = GetBorrow(ID, BID);
+            if (borrow != null)
+            {
+                //Return book
+                borrow.IsReturned = IsReturnedType.Returned;
+                borrow.ActualReturn = DateOnly.FromDateTime(DateTime.Now);
+                borrow.Rating = Rating;
+
+                //Update book
+                BooksRepo book = new BooksRepo(applicationDbContext);
+                var ThisBook = book.GetBookByID(BID);
+                ThisBook.BorrowedCopies--;
+
+                _context.Books.Update(ThisBook);
+                _context.Borrows.Update(borrow);
+                _context.SaveChanges();
+                return true;
+            }
+
+            else
+            { return false;  }
             }
 
         public void Delete(int ID)

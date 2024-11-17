@@ -203,7 +203,7 @@ namespace LibrarySystemDB
                     {
                         case 1:
                             Console.Clear();
-                            ReturnBook(borrow, currentReader);
+                            ReturnBook(borrow, currentReader, applicationDbContext, art);
                             break;
 
                         case 2:
@@ -253,7 +253,7 @@ namespace LibrarySystemDB
                         case 1:
                             Console.Clear();
                             PrintTitle();
-                            ViewBook(applicationDbContext);
+                            ViewBook(applicationDbContext, art, currentReader);
                             break;
 
                         case 2:
@@ -268,13 +268,13 @@ namespace LibrarySystemDB
 
                         case 4:
                             Console.Clear();
-                            ViewBook(applicationDbContext);
-                            BorrowBook();
+                            ViewBook(applicationDbContext, art, currentReader);
+                            BorrowBook(applicationDbContext, art, currentReader);
                             break;
 
                         case 5:
                             Console.Clear();
-                            ReturnBook(borrow, currentReader);
+                            ReturnBook(borrow, currentReader, applicationDbContext, art);
                             break;
 
                         //case 6:
@@ -311,7 +311,7 @@ namespace LibrarySystemDB
 
 
         //ALL BOOKS
-        static void ViewBook(ApplicationDBContext applicationDbContext)
+        static void ViewBook(ApplicationDBContext applicationDbContext, Artworks art, Reader reader)
         {
             BooksRepo book = new BooksRepo(applicationDbContext);
             var AllBooks = book.GetAll();
@@ -359,7 +359,7 @@ namespace LibrarySystemDB
 
                 else;
                 {
-                    BorrowBook();
+                    BorrowBook(applicationDbContext, art, reader);
                 }
             }
             else { Console.WriteLine("Sorry it looks like we don't have any books available :( \nPlease come again another time.\n"); }
@@ -486,7 +486,7 @@ namespace LibrarySystemDB
                 }
                 else
                 {
-                    ViewBook(applicationDbContext);
+                    ViewBook(applicationDbContext, art, reader);
                 }
             }
 
@@ -565,23 +565,25 @@ namespace LibrarySystemDB
 
         }
 
-        //RETURN BOOK-
-        static void ReturnBook(BorrowsRepo borrow, Reader CurrentReader)
+
+        //RETURN BOOK
+        static void ReturnBook(BorrowsRepo borrow, Reader CurrentReader, ApplicationDBContext applicationDbContext, Artworks art)
         {
-            //List<int> BorrowedBookIDs = new List<int>();
-            //double CountDown;
-            //bool Found = false;
             int returnBook = 0;
             Console.Clear();
 
-            var borrowedBooks = borrow.GetBorrowByID(CurrentReader.RID);
+            var borrowedBooks = borrow.GetBorrowByReaderID(CurrentReader.RID);
+
             PrintTitle();
             Console.Write("\n\n\n\n\t\t\t\t\t\t   RETURN BOOK:\n\n");
 
             Console.WriteLine("BORROWED BOOKS: ");
+            foreach(var book in borrowedBooks)
+            {
+                Console.WriteLine($"Book ID: {book.BBID} | Borrowed Date: {book.BorrowedDate} | Should be returned by: {book.PredictedReturn}");
+            }
 
-
-            Console.Write("Enter Book ID: ");
+            Console.Write("\nEnter Book ID: ");
 
             try
             {
@@ -589,85 +591,85 @@ namespace LibrarySystemDB
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); }
 
+            bool Found = false;
 
-            foreach (var i in borrowedBooks)
+            foreach (var book in borrowedBooks)
             {
-                if (i.BBID == returnBook)
+                if (book.BBID == returnBook)
                 {
-                    borrow.ReturnBook(i);
-                }
-            }
+                    RatingTypes rating = RatingTypes.Okay;
+                    bool Error = false;
+                    int Response = 0;
 
-            if (ReturnBook) //Checking if the user has borrowed the book they are trying to return
-            {
-                for (int i = 0; i < Books.Count; i++)
-                {
-                    if (Books[i].BookID == ReturnBook)
+                    do
                     {
-                        //Checking if this book has been borrowed -> handels case of books being returned without being borrowed (ie new books added)
-                        if (Books[i].Borrowed > 0)
+                        Error = false;
+                        Console.WriteLine($"Please rate the book:");
+                        Console.WriteLine("1. Excellent");
+                        Console.WriteLine("2. Great");
+                        Console.WriteLine("3. Good");
+                        Console.WriteLine("4. Okay");
+                        Console.WriteLine("5. Bad");
+                        Console.WriteLine("6. Very Bad");
+
+                        Console.Write("\nRating: ");
+
+                        try
                         {
-                            DateTime Now = DateTime.Now;
-                            int NewBorrowCount = (Books[i].Borrowed - 1);
-                            int NewBookQuantity = (Books[i].BookQuantity + 1);
-                            Books[i] = ((Books[i].BookID, Books[i].BookName, Books[i].BookAuthor, Quantity: NewBookQuantity, Borrowed: NewBorrowCount, Books[i].Price, Books[i].Category, Books[i].BorrowPeriod));
-
-                            // Borrowing.Add((UserID: CurrentUser, BorrowID: NewBID, BorrowedOn:Now, ReturnBy: Return, ActualReturn: Return, Rating:  -1, IsReturned: false));
-                            Console.WriteLine($"Please rate {Books[i].BookName} out of 5");
-                            Console.Write("Rating: ");
-
-                            float UserRate;
-                            while (!float.TryParse(Console.ReadLine(), out UserRate) || UserRate < 0)
-                            {
-                                Console.WriteLine("Invalid input please enter a number greater than 0.");
-                                while (UserRate < 0 || UserRate > 6)
-                                {
-                                    Console.WriteLine("Invalid input please enter a number between 0 and 5.");
-                                    Console.Write("Rating: ");
-                                    UserRate = float.Parse(Console.ReadLine());
-                                }
-                            }
-
-                            int Location = -1;
-                            for (int j = 0; j < Borrowing.Count; j++)
-                            {
-                                if (Borrowing[j].BookID == ReturnBook)
-                                {
-                                    Location = j;
-                                    break;
-                                }
-                            }
-
-                            Borrowing[Location] = ((Borrowing[Location].UserID, Borrowing[Location].BookID, Borrowing[Location].BorrowedOn, Borrowing[Location].ReturnBy, ActualRetrun: Now, Rating: UserRate, IsReturned: true));
-
-                            Console.WriteLine($"Thank you for returning {Books[i].BookName} :) \nPress enter to print your recipt");
-                            Console.ReadKey();
-                            SaveBooksToFile();
-                            SaveBorrowInfo();
-                            Console.Clear();
-                            ReturnRecipt(i);
-                            Found = true;
+                            Response = int.Parse(Console.ReadLine());
                         }
-                        else
+                        catch (Exception e) { Console.WriteLine(e.Message); }
+
+
+                        switch (Response)
                         {
-                            Console.WriteLine("This book has not been borrowed. \nPress enter to continue.");
-                            Console.ReadKey();
-                            Found = true;
-
+                            case 1:
+                                rating = RatingTypes.Excellent;
+                                break;
+                            case 2:
+                                rating = RatingTypes.Great;
+                                break;
+                            case 3:
+                                rating = RatingTypes.Good;
+                                break;
+                            case 4:
+                                rating = RatingTypes.Okay;
+                                break;
+                            case 5:
+                                rating = RatingTypes.Bad;
+                                break;
+                            case 6:
+                                rating = RatingTypes.VeryBad;
+                                break;
+                            default:
+                                Console.WriteLine("<!>Please choose a valid option<!>");
+                                Error = true;
+                                break;
                         }
-                        break;
+                    } while (Error == true);
+
+                    bool complete = borrow.Return(CurrentReader.RID, returnBook, applicationDbContext, rating);
+
+                    if (complete)
+                    {
+                        Console.WriteLine("Book successfully returned!");
+                        Console.WriteLine($"Thank you for returning book ID - {returnBook} :) \nPress enter to print your recipt");
+                        Console.ReadKey();
+                        ReturnRecipt(art, returnBook, applicationDbContext);
+
                     }
+
+                    else
+                    {
+                        Console.WriteLine("<!> ERROR book could not be returned<!>");
+                    }
+                    
                     Found = true;
-
-
+                    break;
                 }
-                if (Found != true) { Console.WriteLine("Invalid Book ID :("); }
-
-                Console.WriteLine("Press enter to continue...");
-                Console.ReadKey();
-
             }
-            else { Console.WriteLine("You have not taken out this book :) \nPlease check your recipt for book ID"); }
+
+           if (!Found) { Console.WriteLine("<!>You haven't borrowed this book :(<!>"); }
         }
 
 
@@ -719,9 +721,11 @@ namespace LibrarySystemDB
 
 
         //PRINT RETRUN RECIPT
-        static void ReturnRecipt(Artworks art, int i, Book book)
+        static void ReturnRecipt(Artworks art,int bookID, ApplicationDBContext applicationDBContext)
         {
             DateTime Now = DateTime.Now;
+            BooksRepo book = new BooksRepo(applicationDBContext);
+            var ThisBook = book.GetBookByID(bookID);
 
             Console.Clear();
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
@@ -729,9 +733,9 @@ namespace LibrarySystemDB
             Console.WriteLine("\t\t\t\t\t Returned: " + Now);
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  \n\n");
             art.PrintDucks();
-            Console.WriteLine($"\t\t\t\t\tBOOK: \nID - {book.BookID} \nNAME - {book.Title} \nAUTHOR - {book.AuthFName} {book.AuthLName}");
+            Console.WriteLine($"\t\t\t\t\tBOOK: \nID - {ThisBook.BookID} \nNAME - {ThisBook.Title} \nAUTHOR - {ThisBook.AuthFName} {ThisBook.AuthLName}");
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  \n\n");
-            Console.WriteLine($"\t\t\t\t\tThank you for returning {book.Title} :)\n\n");
+            Console.WriteLine($"\t\t\t\t\tThank you for returning {ThisBook.Title} :)\n\n");
             Console.WriteLine("\t\t\t\t\t\tCome again soon!");
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  \n\n");
 
