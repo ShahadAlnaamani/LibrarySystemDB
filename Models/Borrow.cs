@@ -47,7 +47,7 @@ namespace LibrarySystemDB.Models
 
         [Required]
         [EnumDataType(typeof(RatingTypes))]
-        public RatingTypes Rating { get; set; }
+        public RatingTypes? Rating { get; set; }
 
         public DateOnly? ActualReturn { get; set; }
 

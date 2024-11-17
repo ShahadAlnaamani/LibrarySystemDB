@@ -2,6 +2,7 @@
 using LibrarySystemDB.Models;
 using LibrarySystemDB.Repositories;
 using Microsoft.Identity.Client;
+using System.ComponentModel.Design;
 using System.Data;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
@@ -425,191 +426,144 @@ namespace LibrarySystemDB
 
         }
 
-            //BORROW BOOK-
-            static void BorrowBook(ApplicationDBContext applicationDbContext, Artworks art, Reader reader )
+        //BORROW BOOK
+        static void BorrowBook(ApplicationDBContext applicationDbContext, Artworks art, Reader reader )
+        {
+
+            Console.Write("\n\n\n\n\t\t\t\t\t\t   BORROWING A BOOK:\n\n");
+            Console.Write("Enter ID: ");
+            int BorrowID = 0;
+
+            try
             {
-                bool CanBorrow = true;
+                BorrowID = int.Parse(Console.ReadLine());
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message + "\n"); }
 
-                Console.Write("\n\n\n\n\t\t\t\t\t\t   BORROWING A BOOK:\n\n");
-                Console.Write("Enter ID: ");
-                int BorrowID = 0;
-
-                try
-                {
-                    BorrowID = int.Parse(Console.ReadLine());
-                }
-                catch (Exception ex) { Console.WriteLine(ex.Message + "\n"); }
-
-                bool Exists = UserSearchByID(applicationDbContext, BorrowID);
+            bool Exists = UserSearchByID(applicationDbContext, BorrowID);
 
             if (Exists)
             {
-                for ()
+                BorrowsRepo borrows = new BorrowsRepo(applicationDbContext);
+
+                var allBorrows = borrows.GetAll();
+
+                foreach (Borrow borrow in allBorrows)
                 {
-                    if (Borrowing[i].UserID == CurrentUser && Borrowing[i].BookID == BorrowID && Borrowing[i].IsReturned == false) //checks if user has this book borrowed currently 
+                    if (borrow.BRID == reader.RID && borrow.BBID == BorrowID && borrow.IsReturned == IsReturnedType.NotReturned) //checks if user has this book borrowed currently 
                     {
-                        CanBorrow = false;
                         Console.WriteLine("Looks like you already borrowed this book, sorry you can't borrow more than one copy :(");
                         Console.WriteLine("Press enter...");
                         Console.ReadKey();
                     }
-                }
-
-                if (CanBorrow == true)
-                {
-                    int Location = -1;
-
-                    for (int i = 0; i < Books.Count; i++)
-                    {
-                        if (Books[i].BookID == BorrowID)
-                        {
-                            Location = i;
-                            break;
-                        }
-                    }
-
-                    if (Location != -1) //Book found
-                    {
-                        Console.WriteLine($"Request to borrow: {Books[Location].BookName}");
-                        if (Books[Location].BookQuantity > 0)
-                        {
-                            Console.WriteLine("We've got this in stock!\n");
-                            Console.Write("Would you like to proceed? Yes or No: ");
-                            string Checkout = Console.ReadLine().ToLower();
-
-                            if (Checkout != "no")
-                            {
-
-                                DateTime Now = DateTime.Now;
-
-                                //Decreasing book quantity 
-                                int NewQuantity = (Books[Location].BookQuantity - 1);
-                                int NewBorrowed = (Books[Location].Borrowed + 1);
-                                Books[Location] = ((Books[Location].BookID, Books[Location].BookName, Books[Location].BookAuthor, Quantity: NewQuantity, Borrowed: NewBorrowed, Books[Location].Price, Books[Location].Category, Books[Location].BorrowPeriod));
-
-                                //Appending data to borrow tuple list
-                                //System.TimeSpan timeSpan = new System.TimeSpan(Books[Location].BorrowPeriod);
-                                DateTime Return = Now.AddDays(Books[Location].BorrowPeriod);
-
-                                //DEFUALT: actual return is the return by date | rating -1 | isReturned false
-                                Borrowing.Add((UserID: CurrentUser, BorrowID: Books[Location].BookID, BorrowedOn: Now, ReturnBy: Return, ActualReturn: Return, Rating: -1, IsReturned: false));
-
-                                SaveBorrowInfo();
-                                SaveBooksToFile();
-
-                                Invoices.Add((CurrentUser, DateTime.Now, Books[Location].BookID, Books[Location].BookName, Books[Location].BookAuthor, 1));
-                                SaveInvoice();
-
-                                //Finding book category to print related ASCII art
-                                string CurrentCategory = Books[Location].Category.Trim();
-
-
-                                //Printing recipt 
-                                Console.Clear();
-                                Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-                                Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  \n\n");
-                                Console.WriteLine("\t\t\t\t\t" + Now);
-                                Console.WriteLine("\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n");
-
-                                //Getting related ASCII art
-                                switch (CurrentCategory)
-                                {
-                                    case "Children":
-                                        art.PrintBear();
-                                        break;
-
-                                    case "Cooking":
-                                        art.PrintPie();
-                                        break;
-
-                                    case "History":
-                                        art.PrintScroll();
-                                        break;
-
-                                    case "IT":
-                                        art.PrintComputer();
-                                        break;
-
-                                    case "Non-Fiction":
-                                        art.PrintPerson();
-                                        break;
-
-                                    case "Science":
-                                        art.PrintBooks();
-                                        break;
-
-                                    case "Self Help":
-                                        art.PrintMoon();
-                                        break;
-
-                                    case "Software":
-                                        art.PrintWindowsLogo();
-                                        break;
-
-                                    case "Stories":
-                                        art.PrintSherlock();
-                                        break;
-
-                                    case "Young Adult":
-                                        art.PrintPacMan();
-                                        break;
-
-                                }
-
-                                Console.WriteLine($"BOOK: ID - {Books[Location].BookID} \nNAME - {Books[Location].BookName} \nAUTHOR - {Books[Location].BookAuthor} \nRETURN BY - {Return}");
-                                Console.WriteLine("\n\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n\n");
-                                Console.WriteLine("\n\t\t\tThank you for visiting the library come again soon!");
-                                Console.WriteLine("\t\t\tHappy Reading :)");
-                                Console.WriteLine("\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n ");
-                                Console.WriteLine("Press enter to continue");
-                                Console.ReadKey();
-
-                                Reccomend(Books[Location].BookAuthor);
-
-                                Console.WriteLine("\n\nWould you like to borrow another book? Yes or No.");
-                                Console.Write("Enter: ");
-                                string Response = Console.ReadLine().ToLower();
-
-                                if (Response != "no") //Will repeat borrowing process
-                                {
-                                    BorrowBook(applicationDbContext, art);
-                                }
-
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Sorry this book is out of stock :(");
-                            Console.WriteLine("We might have something else that you might like! \n\nWould you like to see what we have in stock? Yes or No");
-                            string ViewOtherBooks = Console.ReadLine().ToLower();
-
-                            if (ViewOtherBooks != "no")
-                            {
-                                ViewBook(applicationDbContext);
-                            }
-                        }
-                    }
 
                     else
                     {
-                        Console.WriteLine("Sorry we don't have this book :(");
-                        Console.WriteLine("We might have something else that you might like! \n\nWould you like to see what we have in stock? \nYes to continue anything else to leave.");
-                        string ViewOtherBooks = Console.ReadLine().ToLower();
+                        //Adding Borrow 
+                        bool complete = borrows.Add(BorrowID, reader.RID, applicationDbContext);
 
-                        if (ViewOtherBooks != "yes")
+
+                        if (complete)
                         {
-                            Console.WriteLine("Exiting...");
+                            PrintRecipt(art, borrow.BBID, applicationDbContext);
                         }
-                        else
-                        {
-                            ViewBook(applicationDbContext);
-                        }
+
+                        else { Console.WriteLine("<!> ERROR occured please try again<!>"); }
                     }
                 }
             }
-            else { Console.WriteLine("Sorry it looks like we don't have any books available right now :( \n"); }
+
+            
+            else 
+            {
+                Console.WriteLine("Sorry we don't have this book :(");
+                Console.WriteLine("We might have something else that you might like! \n\nWould you like to see what we have in stock? \nYes to continue anything else to leave.");
+                string ViewOtherBooks = Console.ReadLine().ToLower();
+
+                if (ViewOtherBooks != "yes")
+                {
+                    Console.WriteLine("Exiting...");
+                }
+                else
+                {
+                    ViewBook(applicationDbContext);
+                }
+            }
+
         }
 
+        //PRINT BORROW RECIPT
+        static void PrintRecipt(Artworks art, int bookID, ApplicationDBContext applicationDBContext)
+        {
+            BooksRepo Books = new BooksRepo(applicationDBContext);
+            var book = Books.GetBookByID(bookID);
+
+            DateOnly Return = DateOnly.FromDateTime(DateTime.Now);
+            Return.AddDays(book.BorrowPeriod);
+
+            //Printing recipt 
+            Console.Clear();
+            Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
+            Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  \n\n");
+            Console.WriteLine("\t\t\t\t\t" + DateTime.Now);
+            Console.WriteLine("\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n");
+
+            //Getting related ASCII art
+            Random random = new Random();
+            int RandomArt = random.Next(1, 11);
+            switch (RandomArt)
+            {
+                case 1:
+                    art.PrintBear();
+                    break;
+
+                case 2:
+                    art.PrintPie();
+                    break;
+
+                case 3:
+                    art.PrintScroll();
+                    break;
+
+                case 4:
+                    art.PrintComputer();
+                    break;
+
+                case 5:
+                    art.PrintPerson();
+                    break;
+
+                case 6:
+                    art.PrintBooks();
+                    break;
+
+                case 7:
+                    art.PrintMoon();
+                    break;
+
+                case 8:
+                    art.PrintWindowsLogo();
+                    break;
+
+                case 9:
+                    art.PrintSherlock();
+                    break;
+
+                case 10:
+                    art.PrintPacMan();
+                    break;
+
+            }
+
+            Console.WriteLine($"BOOK: ID - {book.BookID} \nNAME - {book.Title} \nAUTHOR - {book.AuthFName} {book.AuthFName}\nRETURN BY - {Return}");
+            Console.WriteLine("\n\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n\n");
+            Console.WriteLine("\n\t\t\tThank you for visiting the library come again soon!");
+            Console.WriteLine("\t\t\tHappy Reading :)");
+            Console.WriteLine("\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n ");
+            Console.WriteLine("Press enter to continue");
+            Console.ReadKey();
+
+        }
 
         //RETURN BOOK-
         static void ReturnBook(BorrowsRepo borrow, Reader CurrentReader)

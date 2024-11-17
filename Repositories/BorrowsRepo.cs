@@ -1,6 +1,7 @@
 ﻿using LibrarySystemDB.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -36,10 +37,29 @@ namespace LibrarySystemDB.Repositories
                 }
             }
 
-            public void Add(Borrow borrow)
+            public bool Add(int BID, int ReaderID, ApplicationDBContext applicationDBContext)
             {
-                _context.Borrows.Add(borrow);
+                BooksRepo book = new BooksRepo(applicationDBContext);
+                var ThisBook = book.GetBookByID(BID);
+
+            if (ThisBook != null)
+            {
+                DateOnly Return = DateOnly.FromDateTime(DateTime.Now);
+                Return.AddDays(ThisBook.BorrowPeriod);
+
+                //Adding Borrow 
+                var borrow = new Borrow { BBID = ThisBook.BookID, BRID = ReaderID, BorrowedDate = DateTime.Now, PredictedReturn = Return, ActualReturn = null, Rating = null, IsReturned = IsReturnedType.NotReturned };
+                _context.Borrows.Update(borrow);
+
+                //Updating book 
+                ThisBook.BorrowedCopies = ThisBook.BorrowedCopies + 1;
+                _context.Books.Update(ThisBook);
+
                 _context.SaveChanges();
+                return true;
+            }
+
+            else { return false; } // ie failed
             }
 
             public void Return(int ID)
