@@ -29,7 +29,7 @@ namespace LibrarySystemDB.Repositories
 
         public Librarian GetLibrarianByName(string name)
         {
-            return _context.Librarians.Find(name);
+            return _context.Librarians.FirstOrDefault(n => n.LFName == name || n.LLName == name || n.LUserName == name);
         }
 
         public void Update(string name)

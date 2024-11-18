@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,10 +47,23 @@ namespace LibrarySystemDB.Repositories
             }
         }
 
-        public void Add(Book book)
+        public bool Add(string Title, int Period, string FName, string LName, decimal Price, int Copies, int CatID, ApplicationDBContext applicationDbContext)
         {
-            _context.Books.Add(book);
-            _context.SaveChanges();
+            CategoriesRepo cat = new CategoriesRepo(applicationDbContext);
+
+            var c = cat.GetCategoryByID(CatID);
+
+            if (c != null)
+            {
+                var Book = new Book { Title = Title, BorrowPeriod = Period, AuthFName = FName, AuthLName = LName, Price = Price, TotalCopies = Copies, BorrowedCopies = 0, Categories = c };
+                c.NoBooks++;
+                _context.Books.Add(Book);
+                _context.Categories.Update(c);
+                _context.SaveChanges();
+                return true;
+            }
+
+            else { return false; }
         }
 
         public void Delete(int ID)
@@ -72,9 +86,9 @@ namespace LibrarySystemDB.Repositories
             return _context.Books.Sum(e => e.Price * e.BorrowPeriod);
         }
 
-        public int GetTotalBooksPerCategoryName(CategoryType catName)
-        { 
-            return _context.Categories.Where(c=> c.CatName == catName).Count();
-        }
+        //public int GetTotalBooksPerCategoryName(CategoryType catName)
+        //{ 
+        //    return _context.Categories.Where(c=> c.CatName == catName).Count();
+        //}
     }
 }

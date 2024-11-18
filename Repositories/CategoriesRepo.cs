@@ -27,23 +27,41 @@ namespace LibrarySystemDB.Repositories
 
         public Category GetCategoryByName(string name)
         {
-            return _context.Categories.Find(name);
+            return _context.Categories.FirstOrDefault(n => n.CategoryTypes == name);
         }
 
-        public void Update(string name)
+        public int Update(string name, int catID)
         {
-            var category = GetCategoryByName(name);
+            var category = GetCategoryByID(catID);
             if (category != null)
             {
-                _context.Categories.Update(category);
-                _context.SaveChanges();
+                var NameUsed = GetCategoryByName(name);
+                if (NameUsed == null)
+                {
+                    category.CategoryTypes = name;
+                    _context.Categories.Update(category);
+                    _context.SaveChanges();
+                    return 1; //complete 
+                }
+
+                else { return 2;  } //name already used 
             }
+
+            else return 0; //category ID nopt valid  
         }
 
-        public void Add(Category category)
+        public bool Add(string CatName)
         {
-            _context.Categories.Add(category);
-            _context.SaveChanges();
+            var catname  = GetCategoryByName(CatName);
+            if (catname == null)
+            {
+                var category = new Category { CategoryTypes = CatName, NoBooks = 0 };
+                _context.Categories.Add(category);
+                _context.SaveChanges();
+                return true;
+            }
+
+            else { return false; }  
         }
 
         public void Delete(int ID)

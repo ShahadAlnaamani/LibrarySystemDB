@@ -116,7 +116,7 @@ namespace LibrarySystemDB
                         if (adminAuth == 1)
                         {
                             Console.Clear();
-                            //LibrarianPage(applicationDbContext, admin, CurrentAdmin, art);
+                            LibrarianPage(applicationDbContext, admin, CurrentAdmin, art, book);
                         }
 
                         else if (adminAuth == 2)
@@ -230,15 +230,15 @@ namespace LibrarySystemDB
             PrintTitle();
             Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   READER REGISTRATION:\n");
 
-            Console.WriteLine("First Name: "); //check criteria 
+            Console.WriteLine("First Name "); //check criteria 
             Console.Write("Enter: ");
             string Fname = Console.ReadLine();
 
-            Console.WriteLine("Last Name: ");//check criteria 
+            Console.WriteLine("Last Name ");//check criteria 
             Console.Write("Enter: ");
             string Lname = Console.ReadLine();
 
-            Console.WriteLine("Email: "); //check criteria 
+            Console.WriteLine("Email "); //check criteria 
             Console.Write("Enter: ");
             string Email = Console.ReadLine();
 
@@ -271,15 +271,15 @@ namespace LibrarySystemDB
                 }
             } while (Continue);
 
-            Console.WriteLine("Phone: ");
+            Console.WriteLine("Phone ");
             Console.Write("Enter: ");
             string Phone = Console.ReadLine();
 
-            Console.WriteLine("User Name: "); // check not repeated
+            Console.WriteLine("User Name "); // check not repeated
             Console.Write("Enter: ");
             string UsrName = Console.ReadLine();
 
-            Console.WriteLine("Password: "); //check criteria 
+            Console.WriteLine("Password "); //check criteria 
             Console.Write("Enter: ");
             string Password = Console.ReadLine();
 
@@ -446,15 +446,15 @@ namespace LibrarySystemDB
 
                 var BooksTable = new DataTable("Books");
                 BooksTable.Columns.Add("ID", typeof(int));
-                BooksTable.Columns.Add("NAME", typeof(string));
+                BooksTable.Columns.Add("TITLE", typeof(string));
                 BooksTable.Columns.Add("AUTHOR FNAME", typeof(string));
                 BooksTable.Columns.Add("AUTHOR LNAME", typeof(string));
                 BooksTable.Columns.Add("CATEGORY", typeof(string));
-                BooksTable.Columns.Add("AVAILABLE QTY", typeof(int));
+                BooksTable.Columns.Add("BORROW PERIOD", typeof(int));
 
                 for (int i = 0; i < AllBooks.Count; i++)
                 {
-                    BooksTable.Rows.Add(AllBooks[i].BookID, AllBooks[i].Title.Trim(), AllBooks[i].AuthFName.Trim(), AllBooks[i].AuthLName.Trim(), AllBooks[i].Categories.CatName, AllBooks[i].BorrowPeriod);
+                    BooksTable.Rows.Add(AllBooks[i].BookID, AllBooks[i].Title.Trim(), AllBooks[i].AuthFName.Trim(), AllBooks[i].AuthLName.Trim(), AllBooks[i].Categories.CategoryTypes, AllBooks[i].BorrowPeriod);
                 }
 
                 foreach (DataColumn column in BooksTable.Columns)
@@ -512,7 +512,7 @@ namespace LibrarySystemDB
 
                 if (regex.IsMatch(allbooks[i].Title) || regex.IsMatch(allbooks[i].AuthLName) || regex.IsMatch(allbooks[i].AuthFName))
                 {
-                    Console.WriteLine($"\nBook Title: {allbooks[i].Title} \nBook Author: {allbooks[i].AuthFName} {allbooks[i].AuthLName} \nID: {allbooks[i].BookID} \nCategory: {allbooks[i].Categories.CatName} \nPrice: {allbooks[i].Price} \nBorrow Period: {allbooks[i].BorrowPeriod} days\n");
+                    Console.WriteLine($"\nBook Title: {allbooks[i].Title} \nBook Author: {allbooks[i].AuthFName} {allbooks[i].AuthLName} \nID: {allbooks[i].BookID} \nCategory: {allbooks[i].Categories.CategoryTypes} \nPrice: {allbooks[i].Price} \nBorrow Period: {allbooks[i].BorrowPeriod} days\n");
                     flag = true;
                 }
 
@@ -920,314 +920,310 @@ namespace LibrarySystemDB
         }
 
         //ADMIN PAGE-
-        //static void LibrarianPage(ApplicationDBContext applicationDbContext, string adminName, Librarian CurrentLibrarian, Artworks art)
-        //{
-        //    bool ExitFlag = false;
-        //    do
-        //    {
-        //        Console.Clear();
-        //        PrintTitle();
-        //        Console.Write("\n\n\n\n\t\t\t\t\t\t   LIBRARIAN OPTIONS:\n\n\n");
-        //        Console.WriteLine("\t\t\t\t\t1. Add New Book\n");
-        //        Console.WriteLine("\t\t\t\t\t2. Display All Books\n");
-        //        Console.WriteLine("\t\t\t\t\t3. Search by Book Name or Author\n");
-        //        Console.WriteLine("\t\t\t\t\t4. Edit Book\n");
-        //        Console.WriteLine("\t\t\t\t\t5. Delete Book\n");
-        //        Console.WriteLine("\t\t\t\t\t6. Show Reports\n");
-        //        Console.WriteLine("\t\t\t\t\t7. Add Category\n");
-        //        Console.WriteLine("\t\t\t\t\t8. Log out\n\n\n");
-        //        Console.Write("\t\t\t\t\tEnter: ");
-        //        int choice = 0;
+        static void LibrarianPage(ApplicationDBContext applicationDbContext, string adminName, Librarian CurrentLibrarian, Artworks art, BooksRepo book)
+        {
+            CategoriesRepo categories = new CategoriesRepo(applicationDbContext);
+            bool ExitFlag = false;
+            do
+            {
+                Console.Clear();
+                PrintTitle();
+                Console.Write("\n\n\n\n\t\t\t\t\t\t   LIBRARIAN OPTIONS:\n\n\n");
+                Console.WriteLine("\t\t\t\t\t1. Add New Book\n");
+                Console.WriteLine("\t\t\t\t\t2. Display All Books\n");
+                Console.WriteLine("\t\t\t\t\t3. Search by Book Name or Author\n");
+                //Console.WriteLine("\t\t\t\t\t4. Edit Book\n");
+                //Console.WriteLine("\t\t\t\t\t5. Delete Book\n");
+                //Console.WriteLine("\t\t\t\t\t6. Show Reports\n");
+                Console.WriteLine("\t\t\t\t\t7. Add Category\n");
+                Console.WriteLine("\t\t\t\t\t8. Update Category\n");
+                Console.WriteLine("\t\t\t\t\t9. Log out\n\n\n");
+                Console.Write("\t\t\t\t\tEnter: ");
+                int choice = 0;
 
-        //        try
-        //        {
-        //            choice = int.Parse(Console.ReadLine());
-        //        }
-        //        catch (Exception ex) { Console.WriteLine(ex.Message); }
+                try
+                {
+                    choice = int.Parse(Console.ReadLine());
+                }
+                catch (Exception ex) { Console.WriteLine(ex.Message); }
 
-        //        switch (choice)
-        //        {
+                switch (choice)
+                {
 
-        //            case 1:
-        //                Console.Clear();
-        //                AddNewBook();
-        //                break;
+                    case 1:
+                        Console.Clear();
+                        AddNewBook(book, applicationDbContext);
+                        break;
 
-        //            case 2:
-        //                Console.Clear();
-        //                ViewAllBooks();
-        //                break;
+                    case 2:
+                        Console.Clear();
+                        ViewBooksLibrarian(applicationDbContext);
+                        break;
 
-        //            case 3:
-        //                Console.Clear();
-        //                SearchForBook();
-        //                break;
+                    case 3:
+                        Console.Clear();
+                        SearchForBook(applicationDbContext);
+                        break;
 
-        //            case 4:
-        //                Console.Clear();
-        //                EditBooks();
-        //                break;
+                    case 4:
+                        Console.Clear();
+                        //EditBooks();
+                        break;
 
-        //            case 5:
-        //                Console.Clear();
-        //                DeleteBook();
-        //                break;
+                    case 5:
+                        Console.Clear();
+                        //DeleteBook();
+                        break;
 
-        //            case 6:
-        //                Console.Clear();
-        //                Reports();
-        //                break;
+                    case 6:
+                        Console.Clear();
+                        //Reports();
+                        break;
 
-        //            case 7:
-        //                Console.Clear();
-        //                AddCategory();
-        //                break;
+                    case 7:
+                        Console.Clear();
+                        AddCategory(categories);
+                        break;
 
-        //            case 8:
-        //                Console.Clear();
-        //                Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - -L O G I N G   O U T- - - - - - - - - - - - - - - - - - - - - - -\n\n");
-        //                art.PrintFish();
-        //                ExitFlag = true;
-        //                break;
+                    case 8:
+                        Console.Clear();
+                        UpdateCategory(categories);
+                        break;
 
-        //            default:
-        //                Console.WriteLine("\t\t\t\t\t<!>Sorry your choice was wrong<!>");
-        //                break;
+                    case 9:
+                        Console.Clear();
+                        Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - -L O G I N G   O U T- - - - - - - - - - - - - - - - - - - - - - -\n\n");
+                        art.PrintFish();
+                        ExitFlag = true;
+                        break;
 
-        //        }
-        //        Console.WriteLine("\t\t\t\t\tPress enter to continue...");
-        //        string cont = Console.ReadLine();
-        //        Console.Clear();
+                    default:
+                        Console.WriteLine("\t\t\t\t\t<!>Sorry your choice was wrong<!>");
+                        break;
 
-        //    } while (ExitFlag != true);
+                }
+                Console.WriteLine("\t\t\t\t\tPress enter to continue...");
+                string cont = Console.ReadLine();
+                Console.Clear();
 
-        //}
+            } while (ExitFlag != true);
 
-
-        ////ADDS NEW CATEGORIES 
-        //static void AddCategory()
-        //{
-        //    Console.Clear();
-        //    PrintTitle();
-        //    Console.Write("\n\n\n\n\t\t\t\t\t\t   ADDING NEW CATEGORY:\n\n");
-        //}
-
-        ////GETS BOOK INFORMATION FROM THE USER-
-        //static void AddNewBook()
-        //{
-        //    Console.Clear();
-        //    PrintTitle();
-        //    Console.Write("\n\n\n\n\t\t\t\t\t\t   ADDING NEW BOOK:\n\n");
-        //    bool Repeated = false;
-        //    string Name = " ";
-
-        //    do
-        //    {
-        //        Repeated = false;
-        //        Console.Write("\t\t\t\t\tEnter Book Name: ");
-        //        Name = Console.ReadLine().Trim(); //Trim added for more accurate search  
-
-        //        for (int i = 0; i < Books.Count; i++)
-        //        {
-        //            if ((Books[i].BookName).Trim() == Name)
-        //            {
-        //                Repeated = true;
-        //                break;
-        //            }
-        //        }
-
-        //        if (Repeated != false)
-        //        {
-        //            Console.WriteLine("\n\t\t\t\t<!>This book already exists please enter a new book<!>");
-        //            Repeated = true;
-        //        }
-
-        //    } while (Repeated != false);
+        }
 
 
-        //    Console.Write("\t\t\t\t\tEnter Book Author: ");
-        //    string Author = Console.ReadLine().Trim();
+        //ALL BOOKS
+        static void ViewBooksLibrarian(ApplicationDBContext applicationDbContext)
+        {
+            BooksRepo book = new BooksRepo(applicationDbContext);
+            var AllBooks = book.GetAll();
+            if (AllBooks.Count != 0)
+            {
+                Console.Write("\n\n\n\n\t\t\t\t\t\t   AVAILABLE BOOKS:\n\n");
 
-        //    int ID = Books.Count + 1;
+                var BooksTable = new DataTable("Books");
+                BooksTable.Columns.Add("ID", typeof(int));
+                BooksTable.Columns.Add("TITLE", typeof(string));
+                BooksTable.Columns.Add("AUTHOR FNAME", typeof(string));
+                BooksTable.Columns.Add("AUTHOR LNAME", typeof(string));
+                BooksTable.Columns.Add("CATEGORY", typeof(string));
+                BooksTable.Columns.Add("PRICE", typeof(decimal));
+                BooksTable.Columns.Add("BORROW PERIOD", typeof(int));
+                BooksTable.Columns.Add("TOTAL", typeof(int));
+                BooksTable.Columns.Add("BORROWED", typeof(int));
 
-        //    Console.Write($"\t\t\t\t\tBook ID: {ID}\n");
+                for (int i = 0; i < AllBooks.Count; i++)
+                {
+                    BooksTable.Rows.Add(AllBooks[i].BookID, AllBooks[i].Title.Trim(), AllBooks[i].AuthFName.Trim(), AllBooks[i].AuthLName.Trim(), AllBooks[i].Categories.CategoryTypes, AllBooks[i].Price, AllBooks[i].BorrowPeriod, AllBooks[i].TotalCopies, AllBooks[i].BorrowedCopies);
+                }
 
-
-        //    Console.Write("\t\t\t\t\tEnter Book Quantity: ");
-        //    int Qty = 0;
-        //    try
-        //    {
-        //        Qty = int.Parse(Console.ReadLine());
-        //    }
-        //    catch (Exception ex) { Console.WriteLine("\n\t\t\t<!>" + ex.Message + "<!>"); Console.WriteLine("\n\t\t\t<!>Defualt Quantity of 0 set<!>\n"); }
-
-        //    Console.Write("\t\t\t\t\tEnter Book Price: ");
-        //    float Price = 0;
-        //    try
-        //    {
-        //        Price = float.Parse(Console.ReadLine());
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine("\n\t\t\t < !> " + ex.Message + "<!>");
-        //        Console.WriteLine("\n\t\t\t<!>Defualt Price of 0 set\n\n\t\t\t\t\tPress enter to continue<!>\n");
-        //        Console.ReadKey();
-        //    }
-
-        //    //Functionality to allow user to choose category from specific options :)
-        //    Console.Clear();
-        //    PrintTitle();
-        //    Console.Write("\n\n\n\n\t\t\t\t\t\t   ADDING NEW BOOK:\n\n");
-        //    Console.WriteLine("\t\t\t\t\tChoose a Book Category: ");
-        //    Console.WriteLine("\t\t\t\t\t1. Children");
-        //    Console.WriteLine("\t\t\t\t\t2. Cooking");
-        //    Console.WriteLine("\t\t\t\t\t3. History");
-        //    Console.WriteLine("\t\t\t\t\t4. IT");
-        //    Console.WriteLine("\t\t\t\t\t5. Non-Fiction");
-        //    Console.WriteLine("\t\t\t\t\t6. Science");
-        //    Console.WriteLine("\t\t\t\t\t7. Self Help ");
-        //    Console.WriteLine("\t\t\t\t\t8. Software");
-        //    Console.WriteLine("\t\t\t\t\t9. Stories");
-        //    Console.WriteLine("\t\t\t\t\t10. Young Adult");
-
-        //    int CategoryChoice = 0;
-        //    string Category = " ";
-        //    bool FormComplete = true;
-
-        //    do
-        //    {
-        //        do
-        //        {
-
-        //            Console.Write("\t\t\t\t\tEnter: ");
-        //            try
-        //            {
-        //                CategoryChoice = int.Parse(Console.ReadLine());
-        //            }
-        //            catch (Exception ex) { Console.WriteLine("\n" + ex.Message); }
-
-        //            FormComplete = true;
-
-        //            switch (CategoryChoice)
-        //            {
-        //                case 1:
-        //                    Category = "Children";
-        //                    break;
-
-        //                case 2:
-        //                    Category = "Cooking";
-        //                    break;
-
-        //                case 3:
-        //                    Category = "History";
-        //                    break;
-
-        //                case 4:
-        //                    Category = "IT";
-        //                    break;
-
-        //                case 5:
-        //                    Category = "Non-Fiction";
-        //                    break;
-
-        //                case 6:
-        //                    Category = "Science";
-        //                    break;
-
-        //                case 7:
-        //                    Category = "Self Help";
-        //                    break;
-
-        //                case 8:
-        //                    Category = "Software";
-        //                    break;
-
-        //                case 9:
-        //                    Category = "Stories";
-        //                    break;
-
-        //                case 10:
-        //                    Category = "Young Adult";
-        //                    break;
-
-        //                default:
-        //                    Console.WriteLine("\n\t\t\t\t\t<!>Improper input :( <!>");
-        //                    FormComplete = false;
-        //                    break;
-
-        //            }
-        //        } while (FormComplete != true);
-        //        if (FormComplete != true)
-        //        { break; }
+                foreach (DataColumn column in BooksTable.Columns)
+                {
+                    Console.Write($"{column.ColumnName,-10}");
+                }
+                Console.WriteLine();
 
 
-        //        Console.WriteLine($"\n\t\t\t\t\tYou have chosen {Category}. \n\n\t\t\t\t\tEnter Yes to continue No to choose again");
-        //        Console.Write("\n\t\t\t\t\tEnter: ");
-        //        string Confirm = (Console.ReadLine()).ToLower();
+                foreach (DataRow row in BooksTable.Rows)
+                {
+                    foreach (var item in row.ItemArray)
+                    {
+                        Console.Write($"{item,-10}");
+                    }
+                    Console.WriteLine();
+                }
+                Console.WriteLine();
+            }
+        }
 
-        //        if (Confirm != "yes")
-        //        {
-        //            Category = " ";
-        //        }
+        //ADDS NEW CATEGORIES
+        static void AddCategory(CategoriesRepo categories)
+        {
+            Console.Clear();
+            PrintTitle();
+            Console.Write("\n\n\n\n\t\t\t\t\t\t   ADDING NEW CATEGORY:\n\n");
 
-        //    } while (Category == " ");
+            Console.WriteLine("Category Name: "); // check not repeated
+            Console.Write("Enter: ");
+            string CatName = Console.ReadLine();
 
-        //    if (FormComplete == true)
-        //    {
-        //        Console.Clear();
-        //        PrintTitle();
-        //        Console.Write("\n\n\n\n\t\t\t\t\t\t   ADDING NEW BOOK:\n\n");
-        //        Console.Write("\t\t\t\t\tEnter Book BorrowPeriod: ");
-        //        int BorrowPeriod = 10;
-
-        //        try
-        //        {
-        //            BorrowPeriod = int.Parse(Console.ReadLine());
-        //        }
-        //        catch (Exception ex) { Console.WriteLine("\t\t\t\t\t<!>" + ex.Message + "<!>"); Console.WriteLine("\n\t\t\t\t\tDefualt Borrow Period of 10 set\n"); }
-
-        //        Books.Add((ID, Name, Author, Qty, 0, Price, Category, BorrowPeriod));
-        //        SaveBooksToFile();
-
-        //        for (int i = 0; i < Categories.Count; i++)
-        //        {
-        //            if (Categories[i].CategoryName.Trim() == Category.Trim())
-        //            {
-        //                int New = Categories[i].NoOfBooks + 1;
-        //                Categories[i] = ((Categories[i].CategoryID, Categories[i].CategoryName, NoOfBooks: New));
-        //                break;
-        //            }
-        //        }
-        //        SaveCategories();
-        //    }
-        //    //SaveCategories();
-        //}
+            bool completed = categories.Add(CatName);
 
 
-        ////ALLOWS USER TO SEARCH FOR BOOK - SPECIAL ADMIN OUTPUT-
-        //static void SearchForBook()
-        //{
-        //    Console.Clear();
-        //    PrintTitle();
-        //    Console.Write("\n\n\n\n\t\t\t\t\t\t   SEARCH LIBRARY:\n\n");
-        //    Console.Write("\n\t\t\t\t\t\tBook name or author: ");
-        //    string name = (Console.ReadLine().Trim()).ToLower();
-        //    bool flag = false;
-        //    string SearchPattern = Regex.Escape(name);
-        //    Regex regex = new Regex(SearchPattern, RegexOptions.IgnoreCase);
+            if (completed)
+            {
+                Console.WriteLine("Successfully added category!");
+            }
 
-        //    for (int i = 0; i < Books.Count; i++)
-        //    {
-        //        if (regex.IsMatch(Books[i].BookName) || regex.IsMatch(Books[i].BookAuthor))
-        //        {
-        //            Console.WriteLine($"\nBook ID: {Books[i].BookID} \nBook Title: {Books[i].BookName} \nBook Author: {Books[i].BookAuthor} \nCategory: {Books[i].Category} \nPrice: {Books[i].Price} \nAvailable Stock: {Books[i].BookQuantity} \nBorrowed Copies: {Books[i].Borrowed} \nBorrowed Period: {Books[i].BorrowPeriod} \n");
-        //            flag = true;
-        //        }
-        //    }
+            else { Console.WriteLine("<!>Error occured when adding category<!>"); }
+        }
 
-        //    if (flag != true)
-        //    { Console.WriteLine("\n\t\t\t\t\t\t<!>Book not found :( <!>"); }
-        //}
+
+        //UPDATES CATEGORY NAME 
+        static void UpdateCategory(CategoriesRepo categories)
+        {
+            Console.Clear();
+            PrintTitle();
+            Console.Write("\n\n\n\n\t\t\t\t\t\t   UPDATE CATEGORY:\n\n");
+
+            Console.WriteLine("Category ID: "); 
+            Console.Write("Enter: ");
+            int CatID = int.Parse(Console.ReadLine());
+
+
+            Console.WriteLine("New name: "); 
+            Console.Write("Enter: ");
+            string NewName = Console.ReadLine();
+
+            int Change = categories.Update(NewName, CatID);
+
+            if (Change == 0)
+            { Console.WriteLine("<!>Category ID not valid<!>"); }
+
+            else if (Change == 1)
+            { Console.WriteLine("Updated successfully!"); }
+
+            else { Console.WriteLine("<!> Category name is already used :( <!>"); }
+        }
+
+
+        //PRINT CATEGORIES 
+        static void PrintCategories(ApplicationDBContext applicationDbContext)
+        {
+            CategoriesRepo categories = new CategoriesRepo(applicationDbContext);
+            var AllCategories = categories.GetAll();
+            if (AllCategories.Count != 0)
+            {
+                Console.Write("\n\n\n\n\t\t\t\t\t\t   AVAILABLE CATEGORIES:\n\n");
+
+                var CategoriessTable = new DataTable("Category");
+                CategoriessTable.Columns.Add("ID", typeof(int));
+                CategoriessTable.Columns.Add("CATEGORY TYPES", typeof(string));
+                CategoriessTable.Columns.Add("NO OF BOOKS", typeof(int));
+
+                for (int i = 0; i < AllCategories.Count; i++)
+                {
+                    CategoriessTable.Rows.Add(AllCategories[i].CatID, AllCategories[i].CategoryTypes.Trim(), AllCategories[i].NoBooks);
+                }
+
+                foreach (DataColumn column in CategoriessTable.Columns)
+                {
+                    Console.Write($"{column.ColumnName,-25}");
+                }
+                Console.WriteLine();
+
+
+                foreach (DataRow row in CategoriessTable.Rows)
+                {
+                    foreach (var item in row.ItemArray)
+                    {
+                        Console.Write($"{item,-25}");
+                    }
+                    Console.WriteLine();
+                }
+                Console.WriteLine();
+            }
+        }
+
+        //ADDS BOOK
+        static void AddNewBook(BooksRepo book, ApplicationDBContext applicationDbContext0)
+        {
+            Console.Clear();
+            PrintTitle();
+            Console.Write("\n\n\n\n\t\t\t\t\t\t   ADDING NEW BOOK:\n\n");
+
+            Console.WriteLine("Book Title: "); // check not repeated
+            Console.Write("Enter: ");
+            string Title = Console.ReadLine();
+
+            Console.WriteLine("Borrow Period: "); //check int parsing  
+            Console.Write("Enter: ");
+            int Period = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Author First Name: ");
+            Console.Write("Enter: ");
+            string FName = Console.ReadLine();
+
+            Console.WriteLine("Author Last Title: ");
+            Console.Write("Enter: ");
+            string LName = Console.ReadLine();
+
+            Console.WriteLine("Price: "); //check int parsing  
+            Console.Write("Enter: ");
+            decimal Price = decimal.Parse(Console.ReadLine());
+
+            Console.WriteLine("Available copies: ");
+            Console.Write("Enter: ");
+            int Copies = int.Parse(Console.ReadLine());
+
+            Console.Clear();
+            PrintTitle();
+            PrintCategories(applicationDbContext0);   
+
+            Console.WriteLine("Category ID: "); //make sure valid 
+            Console.Write("Enter: ");
+            int CatID = int.Parse(Console.ReadLine());
+
+            bool added = book.Add(Title, Period, FName, LName, Price, Copies, CatID, applicationDbContext0);
+
+            if (added)
+            { Console.WriteLine("Successfully added book!"); }
+
+            else { Console.WriteLine("<!>Error occured when adding book, check that category is valid<!>"); }
+        }
+
+
+        //ALLOWS USER TO SEARCH FOR BOOK - SPECIAL ADMIN OUTPUT
+        static void SearchForBook(ApplicationDBContext applicationDBContext)
+        {
+            BooksRepo book = new BooksRepo(applicationDBContext);
+            var allbooks = book.GetAll();
+            Console.Clear();
+            PrintTitle();
+            Console.Write("\n\n\n\n\t\t\t\t\t   LIBRARIAN SEARCH LIBRARY:\n\n");
+            Console.Write("\t\t\t\t\tBook name or author: ");
+            string name = (Console.ReadLine().Trim()).ToLower();
+            string SearchPattern = Regex.Escape(name);
+            Regex regex = new Regex(SearchPattern, RegexOptions.IgnoreCase);
+
+            bool flag = false;
+
+            for (int i = 0; i < allbooks.Count; i++)
+            {
+
+                if (regex.IsMatch(allbooks[i].Title) || regex.IsMatch(allbooks[i].AuthLName) || regex.IsMatch(allbooks[i].AuthFName))
+                {
+                    Console.WriteLine($"\nBook Title: {allbooks[i].Title} \nBook Author: {allbooks[i].AuthFName} {allbooks[i].AuthLName} \nID: {allbooks[i].BookID} \nCategory: {allbooks[i].Categories.CategoryTypes} \nPrice: {allbooks[i].Price} \nBorrow Period: {allbooks[i].BorrowPeriod} days \nTotal Copies: {allbooks[i].TotalCopies} \nBorrowed Copies {allbooks[i].BorrowedCopies}");
+                    flag = true;
+                }
+
+            }
+
+            if (flag != true)
+            { Console.WriteLine("\t\t\t\t\t<!>Book not found :( <!>"); }
+
+            Console.Write("\n\t\t\t\t\tPress enter to continue");
+            Console.ReadKey();
+        }
 
 
         ////ALLOWS LIBRARIAN TO EDIT BOOK INFO-
@@ -1395,58 +1391,6 @@ namespace LibrarySystemDB
         //            SaveBooksToFile();
         //        }
         //    }
-        //}
-
-
-        ////GETS THE INDEX OF GIVEN ID-
-        //static public int GetInformation()
-        //{
-        //    Console.Clear();
-        //    ViewAllBooks();
-        //    Console.Write("Enter ID: ");
-        //    int ChangeID = -1;
-
-        //    try
-        //    {
-        //        ChangeID = int.Parse(Console.ReadLine());
-
-        //    }
-        //    catch (Exception ex) { Console.WriteLine(ex.Message); }
-
-        //    //Checking if book ID exists in library
-        //    bool Found = false;
-        //    if (ChangeID != -1)
-        //    {
-        //        for (int i = 0; i < Books.Count; i++)
-        //        {
-        //            if (Books[i].BookID == ChangeID)
-        //            {
-        //                Found = true;
-        //                break;
-        //            }
-        //        }
-
-        //        if (Found)
-        //        {
-        //            //Finding the index of given ID
-        //            List<int> LocationList = new List<int>();
-
-        //            for (int i = 0; i < Books.Count; i++)
-        //            {
-        //                var (BookID, BookNames, BookAuthors, BookQuantity, Borrowed, Price, Category, BorrowPeriod) = Books[i];
-        //                LocationList.Add(BookID);
-        //            }
-
-        //            if (LocationList.Contains(ChangeID))
-        //            {
-        //                int Location = LocationList.IndexOf(ChangeID);
-        //                return (Location);
-        //            }
-        //            else { return -1; }
-        //        }
-        //        else { Console.WriteLine("ID does not exist :("); return -1; }
-        //    }
-        //    else { Console.WriteLine("ID does not exist :("); return -1; }
         //}
 
 
