@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LibrarySystemDB.Models;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace LibrarySystemDB.Repositories
@@ -19,7 +20,7 @@ namespace LibrarySystemDB.Repositories
 
         public List<Book> GetAll()
         {
-            return _context.Books.ToList();
+            return _context.Books.Include(b=>b.Categories).ToList();
         }
 
         public List<Book> GetAllByAuthor(string Name)

@@ -987,7 +987,7 @@ namespace LibrarySystemDB
 
                     case 8:
                         Console.Clear();
-                        UpdateCategory(categories);
+                        UpdateCategory(categories, applicationDbContext);
                         break;
 
                     case 9:
@@ -1014,8 +1014,10 @@ namespace LibrarySystemDB
         //ALL BOOKS
         static void ViewBooksLibrarian(ApplicationDBContext applicationDbContext)
         {
-            BooksRepo book = new BooksRepo(applicationDbContext);
-            var AllBooks = book.GetAll();
+            PrintTitle();
+            Book book = new Book();
+            BooksRepo Books = new BooksRepo(applicationDbContext);
+            var AllBooks = Books.GetAll();
             if (AllBooks.Count != 0)
             {
                 Console.Write("\n\n\n\n\t\t\t\t\t\t   AVAILABLE BOOKS:\n\n");
@@ -1038,7 +1040,7 @@ namespace LibrarySystemDB
 
                 foreach (DataColumn column in BooksTable.Columns)
                 {
-                    Console.Write($"{column.ColumnName,-10}");
+                    Console.Write($"{column.ColumnName,-14}");
                 }
                 Console.WriteLine();
 
@@ -1047,7 +1049,7 @@ namespace LibrarySystemDB
                 {
                     foreach (var item in row.ItemArray)
                     {
-                        Console.Write($"{item,-10}");
+                        Console.Write($"{item,-14}");
                     }
                     Console.WriteLine();
                 }
@@ -1079,15 +1081,18 @@ namespace LibrarySystemDB
 
 
         //UPDATES CATEGORY NAME 
-        static void UpdateCategory(CategoriesRepo categories)
+        static void UpdateCategory(CategoriesRepo categories, ApplicationDBContext applicationDbContext)
         {
             Console.Clear();
             PrintTitle();
             Console.Write("\n\n\n\n\t\t\t\t\t\t   UPDATE CATEGORY:\n\n");
 
-            Console.WriteLine("Category ID: "); 
+            PrintCategories(applicationDbContext);
+
+
+            Console.WriteLine("Category ID "); 
             Console.Write("Enter: ");
-            int CatID = int.Parse(Console.ReadLine());
+            int CatID = int.Parse(Console.ReadLine()); //check parsing 
 
 
             Console.WriteLine("New name: "); 
