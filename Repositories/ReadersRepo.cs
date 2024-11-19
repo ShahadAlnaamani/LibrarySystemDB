@@ -27,7 +27,7 @@ namespace LibrarySystemDB.Repositories
 
         public Reader GetReaderByName(string name)
         {
-            return _context.Readers.FirstOrDefault(u => u.RFName == name || u.RLName == name);
+            return _context.Readers.FirstOrDefault(u => u.RFName == name || u.RLName == name || u.RUserName == name);
         }
 
         public int GetReaderIDByName(string name)

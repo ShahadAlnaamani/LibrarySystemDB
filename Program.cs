@@ -73,7 +73,7 @@ namespace LibrarySystemDB
                         {
                             Console.Clear();
 
-                            UserPage(applicationDbContext, Usr, reader);
+                            UserPage(applicationDbContext, Usr, reader, CurrentReader);
 
                         }
 
@@ -286,17 +286,17 @@ namespace LibrarySystemDB
             reader.Add(Fname, Lname, Email, gender, Phone, UsrName, Password);
         }
         
-        static void UserPage(ApplicationDBContext applicationDbContext, string usr, ReadersRepo readerRepo)
+        static void UserPage(ApplicationDBContext applicationDbContext, string usr, ReadersRepo readerRepo, Reader currentReader)
         {
             Artworks art = new Artworks();
             BorrowsRepo borrow = new BorrowsRepo(applicationDbContext);
 
 
-            var currentReader = readerRepo.GetReaderByUserName(usr);
+            //var currentReader = readerRepo.GetReaderByUserName(usr);
             var OverdueBooks = borrow.OverdueFinder(currentReader);
 
             //Overdue books 
-            if (OverdueBooks != null) 
+            if (OverdueBooks.Count() !=  0) 
             {
                 Console.Clear();
                 PrintTitle();
@@ -482,7 +482,7 @@ namespace LibrarySystemDB
                     Console.WriteLine("Exiting...");
                 }
 
-                else;
+                else
                 {
                     BorrowBook(applicationDbContext, art, reader);
                 }
@@ -869,20 +869,20 @@ namespace LibrarySystemDB
         }
 
 
-        //BOOK RECCOMENDATION GENERATOR
-        static void Reccomend(string Author, BooksRepo book)
-        {
+        ////BOOK RECCOMENDATION GENERATOR
+        //static void Reccomend(string Author, BooksRepo book)
+        //{
 
-            //Book author find other books with book author and suggest 
-            Console.Clear();
-            var recommendations = book.GetAllByAuthor(Author);
+        //    //Book author find other books with book author and suggest 
+        //    Console.Clear();
+        //    var recommendations = book.GetAllByAuthor(Author);
 
-            Console.WriteLine("You might also like: ");
-            foreach (var r in recommendations) 
-            {
-                Console.WriteLine($"|Book ID: {r.BookID} | Book Title: {r.Title} | Book Author {r.AuthFName} {r.AuthLName}|");
-            }
-        }
+        //    Console.WriteLine("You might also like: ");
+        //    foreach (var r in recommendations) 
+        //    {
+        //        Console.WriteLine($"|Book ID: {r.BookID} | Book Title: {r.Title} | Book Author {r.AuthFName} {r.AuthLName}|");
+        //    }
+        //}
 
 
 
