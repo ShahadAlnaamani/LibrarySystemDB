@@ -394,7 +394,7 @@ namespace LibrarySystemDB
                         case 4:
                             Console.Clear();
                             ViewBook(applicationDbContext, art, currentReader);
-                            BorrowBook(applicationDbContext, art, currentReader);
+                            //BorrowBook(applicationDbContext, art, currentReader); no need will automatically redirect
                             break;
 
                         case 5:
@@ -572,6 +572,7 @@ namespace LibrarySystemDB
                 BorrowsRepo borrows = new BorrowsRepo(applicationDbContext);
 
                 var allBorrows = borrows.GetAll();
+                bool AlreadyBorrowed = false;   
 
                 foreach (Borrow borrow in allBorrows)
                 {
@@ -580,22 +581,24 @@ namespace LibrarySystemDB
                         Console.WriteLine("Looks like you already borrowed this book, sorry you can't borrow more than one copy :(");
                         Console.WriteLine("Press enter...");
                         Console.ReadKey();
-                    }
-
-                    else
-                    {
-                        //Adding Borrow 
-                        bool complete = borrows.Add(BorrowID, reader.RID, applicationDbContext);
-
-
-                        if (complete)
-                        {
-                            PrintRecipt(art, borrow.BBID, applicationDbContext);
-                        }
-
-                        else { Console.WriteLine("<!> ERROR occured please try again<!>"); }
+                        AlreadyBorrowed = true; 
                     }
                 }
+
+                if (!AlreadyBorrowed)
+                {
+                    //Adding Borrow 
+                    bool complete = borrows.Add(BorrowID, reader.RID, applicationDbContext);
+
+
+                    if (complete)
+                    {
+                        PrintRecipt(art, BorrowID, applicationDbContext);
+                    }
+
+                    else { Console.WriteLine("<!> ERROR occured please try again<!>"); }
+                }
+
             }
 
             
@@ -919,7 +922,7 @@ namespace LibrarySystemDB
             librarian.Add(Fname, Lname, Email, UsrName, Password);
         }
 
-        //ADMIN PAGE-
+        //ADMIN PAGE
         static void LibrarianPage(ApplicationDBContext applicationDbContext, string adminName, Librarian CurrentLibrarian, Artworks art, BooksRepo book)
         {
             CategoriesRepo categories = new CategoriesRepo(applicationDbContext);
