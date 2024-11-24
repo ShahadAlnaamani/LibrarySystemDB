@@ -1,4 +1,5 @@
 ﻿using LibrarySystemDB.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -30,7 +31,8 @@ namespace LibrarySystemDB.Repositories
 
         public Borrow GetBorrow(int RID, int BID)
         {
-            return (Borrow)_context.Borrows.Where(r => r.BRID == RID && r.BBID == BID && r.IsReturned == IsReturnedType.NotReturned);
+            var borrow = (Borrow)_context.Borrows.Include(r => r.Books).Include(r => r.Readers).FirstOrDefault(r => r.BRID == RID && r.BBID == BID && r.IsReturned == IsReturnedType.NotReturned);
+            return borrow;
         }
 
         //public void Update(int ID)
@@ -55,7 +57,7 @@ namespace LibrarySystemDB.Repositories
 
                 //Adding Borrow 
                 var borrow = new Borrow { BBID = ThisBook.BookID, BRID = ReaderID, BorrowedDate = DateTime.Now, PredictedReturn = Return, ActualReturn = null, Rating = null, IsReturned = IsReturnedType.NotReturned };
-                _context.Borrows.Add(borrow);
+                _context.Borrows.Update(borrow);
 
                 //Updating book 
                 ThisBook.BorrowedCopies = ThisBook.BorrowedCopies + 1;

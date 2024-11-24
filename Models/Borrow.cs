@@ -45,7 +45,6 @@ namespace LibrarySystemDB.Models
         public DateOnly PredictedReturn {  get; set; }
 
 
-        [Required]
         [EnumDataType(typeof(RatingTypes))]
         public RatingTypes? Rating { get; set; }
 
