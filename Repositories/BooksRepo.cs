@@ -35,7 +35,7 @@ namespace LibrarySystemDB.Repositories
 
         public Book GetBookByID(int ID)
         {
-            return _context.Books.Find(ID);
+            return _context.Books.FirstOrDefault(b => b.BookID == ID);
         }
 
         public void Update(string title)

@@ -51,17 +51,18 @@ namespace LibrarySystemDB.Repositories
             if (ThisBook != null)
             {
                 DateOnly Return = DateOnly.FromDateTime(DateTime.Now);
-                Return.AddDays(ThisBook.BorrowPeriod);
+                Return = Return.AddDays(ThisBook.BorrowPeriod);
 
                 //Adding Borrow 
                 var borrow = new Borrow { BBID = ThisBook.BookID, BRID = ReaderID, BorrowedDate = DateTime.Now, PredictedReturn = Return, ActualReturn = null, Rating = null, IsReturned = IsReturnedType.NotReturned };
-                _context.Borrows.Update(borrow);
+                _context.Borrows.Add(borrow);
 
                 //Updating book 
                 ThisBook.BorrowedCopies = ThisBook.BorrowedCopies + 1;
                 _context.Books.Update(ThisBook);
 
                 _context.SaveChanges();
+
                 return true;
             }
 

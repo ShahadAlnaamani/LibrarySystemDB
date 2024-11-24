@@ -415,6 +415,9 @@ namespace LibrarySystemDB
                             {
                                 ExitFlag = true;
                             }
+                            Console.Clear();
+                            Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - -L O G I N G   O U T- - - - - - - - - - - - - - - - - - - - - - -\n\n");
+                            art.PrintMonkey();
                             break;
 
                         default:
@@ -422,9 +425,6 @@ namespace LibrarySystemDB
                             break;
 
                     }
-                    Console.Clear();
-                    Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - -L O G I N G   O U T- - - - - - - - - - - - - - - - - - - - - - -\n\n");
-                    art.PrintMonkey();
                     Console.WriteLine("\t\t\t\t\tPress enter to continue...");
                     Console.ReadKey();
                     string cont = Console.ReadLine();
