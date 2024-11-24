@@ -57,7 +57,7 @@ namespace LibrarySystemDB.Repositories
 
                 //Adding Borrow 
                 var borrow = new Borrow { BBID = ThisBook.BookID, BRID = ReaderID, BorrowedDate = DateTime.Now, PredictedReturn = Return, ActualReturn = null, Rating = null, IsReturned = IsReturnedType.NotReturned };
-                _context.Borrows.Update(borrow);
+                _context.Borrows.Add(borrow);
 
                 //Updating book 
                 ThisBook.BorrowedCopies = ThisBook.BorrowedCopies + 1;

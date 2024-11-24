@@ -93,7 +93,7 @@ namespace LibrarySystemDB
 
                             if (NewRegistration == "yes")
                             {
-                                RegisterReader(reader);
+                                RegisterReader(reader, art);
                             }
 
                         }
@@ -135,7 +135,7 @@ namespace LibrarySystemDB
 
                             if (NewRegistration == "yes")
                             {
-                                RegisterLibrary(librarian);
+                                RegisterLibrary(librarian, art);
                             }
 
                         }
@@ -162,11 +162,11 @@ namespace LibrarySystemDB
                         switch (Choice)
                         {
                             case 1:
-                                RegisterReader(reader);
+                                RegisterReader(reader, art );
                                 break;
 
                             case 2:
-                                RegisterLibrary(librarian);
+                                RegisterLibrary(librarian, art);
                                 break;
 
                             default:
@@ -224,7 +224,7 @@ namespace LibrarySystemDB
         //--------------------------------USER FUNCTIONS----------------------------- 
         //USER MAIN PAGE 
 
-        static void RegisterReader(ReadersRepo reader)
+        static void RegisterReader(ReadersRepo reader, Artworks art)
         {
             Console.Clear();
             PrintTitle();
@@ -283,7 +283,17 @@ namespace LibrarySystemDB
             Console.Write("Enter: ");
             string Password = Console.ReadLine();
 
-            reader.Add(Fname, Lname, Email, gender, Phone, UsrName, Password);
+            bool added = reader.Add(Fname, Lname, Email, gender, Phone, UsrName, Password);
+
+            if (added)
+            {
+                art.PrintPenguin();
+                Console.WriteLine("Press enter...");
+                Console.ReadKey();
+            }
+
+            else
+            { Console.WriteLine("<!> Error occured :( <!>"); }
         }
         
         static void UserPage(ApplicationDBContext applicationDbContext, string usr, ReadersRepo readerRepo, Reader currentReader)
@@ -394,7 +404,6 @@ namespace LibrarySystemDB
                         case 4:
                             Console.Clear();
                             ViewBook(applicationDbContext, art, currentReader);
-                            //BorrowBook(applicationDbContext, art, currentReader); no need will automatically redirect
                             break;
 
                         case 5:
@@ -414,10 +423,10 @@ namespace LibrarySystemDB
                             if (Response == true)
                             {
                                 ExitFlag = true;
+                                Console.Clear();
+                                Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - -L O G I N G   O U T- - - - - - - - - - - - - - - - - - - - - - -\n\n");
+                                art.PrintMonkey();
                             }
-                            Console.Clear();
-                            Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - -L O G I N G   O U T- - - - - - - - - - - - - - - - - - - - - - -\n\n");
-                            art.PrintMonkey();
                             break;
 
                         default:
@@ -893,7 +902,7 @@ namespace LibrarySystemDB
         //- - - - - - - - - - - - - - - - - - - - ADMIN FUNCTIONS  - - - - - - - - - - - - - - - - - - //
         //ADMIN PAGE  
 
-        static void RegisterLibrary(LibrarianRepo librarian)
+        static void RegisterLibrary(LibrarianRepo librarian, Artworks art)
         {
             Console.Clear();
             PrintTitle();
@@ -919,7 +928,17 @@ namespace LibrarySystemDB
             Console.Write("Enter: ");
             string Password = Console.ReadLine();
 
-            librarian.Add(Fname, Lname, Email, UsrName, Password);
+            bool added = librarian.Add(Fname, Lname, Email, UsrName, Password);
+
+            if (added)
+            { 
+                art.PrintDino();
+                Console.WriteLine("Press enter...");
+                Console.ReadKey();
+            }
+
+            else
+            { Console.WriteLine("<!> Error occured :( <!>"); }
         }
 
         //ADMIN PAGE

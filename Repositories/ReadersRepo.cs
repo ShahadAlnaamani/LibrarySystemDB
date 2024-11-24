@@ -51,12 +51,19 @@ namespace LibrarySystemDB.Repositories
             }
         }
 
-        public void Add(string FName, string LName, string email, GenderType gender, string phone, string UName, string pass)
+        public bool Add(string FName, string LName, string email, GenderType gender, string phone, string UName, string pass)
         {
-            var reader = new Reader {RFName = FName, RLName = LName, REmail = email, RGender = gender, RPhoneNo = phone, RUserName = UName, Password = pass};
+            try
+            {
+                var reader = new Reader { RFName = FName, RLName = LName, REmail = email, RGender = gender, RPhoneNo = phone, RUserName = UName, Password = pass };
 
-            _context.Readers.Add(reader);
-            _context.SaveChanges();
+                _context.Readers.Add(reader);
+                _context.SaveChanges();
+                return true;
+            }catch 
+            {
+                return false;
+            }
         }
 
         public void Delete(int ID)

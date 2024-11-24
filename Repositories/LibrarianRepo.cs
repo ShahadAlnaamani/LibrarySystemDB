@@ -42,12 +42,21 @@ namespace LibrarySystemDB.Repositories
             }
         }
 
-        public void Add(string FName, string LName, string email, string UName, string pass)
+        public bool Add(string FName, string LName, string email, string UName, string pass)
         {
-            var librarian = new Librarian { LFName = FName, LLName = LName, LEmail = email, LUserName = UName, LPassword = pass };
+            try
+            {
+                var librarian = new Librarian { LFName = FName, LLName = LName, LEmail = email, LUserName = UName, LPassword = pass };
 
-            _context.Librarians.Add(librarian);
-            _context.SaveChanges();
+                _context.Librarians.Add(librarian);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
 
         public void Delete(int ID)
